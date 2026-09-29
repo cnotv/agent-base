@@ -45,10 +45,10 @@ Before the PR is marked ready, ask what should outlive the work, and route each 
 ## 3. Open it
 
 ```sh
-gh pr create --draft --title "<type>(#<issue-number>): <summary>" --body-file <file>
+gh pr create --draft --title "<type>: <summary> (#<issue-number>)" --body-file <file>
 ```
 
-The title leads with the issue number, as `feat(#6): <summary>`, so GitHub links it to the
+The title ends with the issue number, as `feat: <summary> (#6)`, so GitHub links it to the
 issue; fix an existing title with `gh pr edit --title`. Only the title carries the number,
 never a commit. The body follows the repository's `.github/pull_request_template.md` and
 starts with `Closes #<issue-number>`.
