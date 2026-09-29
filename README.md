@@ -14,14 +14,15 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 
 ## Skills
 
-| Skill           | Use when                                                                  |
-| --------------- | ------------------------------------------------------------------------- |
-| `start`         | first, on every new request: picks the workflow and lists its steps       |
-| `start-issue`   | before any code: the issue, main synced, the branch named                 |
-| `open-pr`       | at the first commit, and again when validated                             |
-| `verify`        | confirming a change works or looks right in the running app               |
-| `finish-change` | before claiming work is complete                                          |
-| `journey-doc`   | a finding is worth recording                                              |
+| Skill            | Use when                                                              |
+| ---------------- | --------------------------------------------------------------------- |
+| `start`          | first, on every new request: picks the workflow and lists its steps   |
+| `start-issue`    | before any code: the issue, main synced, the branch named             |
+| `open-pr`        | at the first commit, and again when validated                         |
+| `verify`         | confirming a change works or looks right in the running app           |
+| `finish-change`  | before claiming work is complete                                      |
+| `journey-doc`    | a finding is worth recording                                          |
+| `security-audit` | a security question, an alert, or a change to auth, input, deps or CI |
 
 Plugin skills are namespaced by the plugin: `/base:start`, `/base:open-pr`.
 
