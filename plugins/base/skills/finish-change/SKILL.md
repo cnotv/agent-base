@@ -32,6 +32,9 @@ Then the lines that hold everywhere:
   match.
 - **Non-obvious finding along the way** — run `journey-doc`.
 - **Visible change** — `verify` was run and the result looked at.
+- **Security-sensitive change** — the diff touches authentication, sessions, input handling,
+  file or network access, secrets, dependencies, CI workflows or containers: `security-audit`
+  was run in `change` mode and its report is in the pull request.
 - **Local skills** — any repository skill whose description covers what you touched (a
   performance check, a docs sync) was run.
 
