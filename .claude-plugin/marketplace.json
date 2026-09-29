@@ -1,0 +1,14 @@
+{
+  "name": "cnotv",
+  "description": "Shared agent skills, rules and workflows for every cnotv repository",
+  "owner": {
+    "name": "cnotv"
+  },
+  "plugins": [
+    {
+      "name": "base",
+      "source": "./plugins/base",
+      "description": "Workflow router, issue-to-PR procedures, verification and session status reporting"
+    }
+  ]
+}

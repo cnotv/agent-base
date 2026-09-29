@@ -1,0 +1,20 @@
+{
+  "name": "cnotv",
+  "interface": {
+    "displayName": "cnotv agent base"
+  },
+  "plugins": [
+    {
+      "name": "base",
+      "source": {
+        "source": "local",
+        "path": "./plugins/base"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

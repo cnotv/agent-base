@@ -1,0 +1,103 @@
+# Reusable: records one screenshot and one video of a pull request's running app and uploads
+# them as the `pr-preview` artifact, which the agent dashboard shows next to the check gates.
+name: PR preview
+
+on:
+  workflow_call:
+    inputs:
+      start-command:
+        description: Command that serves the app on the given port, run from the repository root
+        required: true
+        type: string
+      port:
+        description: Port the start command listens on
+        required: true
+        type: number
+      install-command:
+        description: Command that installs the repository's dependencies
+        required: false
+        type: string
+        default: pnpm install --frozen-lockfile
+      default-route:
+        description: Route recorded when the pull request body has no "Preview route:" line
+        required: false
+        type: string
+        default: /
+      settle-ms:
+        description: Milliseconds to wait after load before the screenshot, for async scenes
+        required: false
+        type: number
+        default: 8000
+      node-version:
+        required: false
+        type: string
+        default: '24'
+      agent-base-ref:
+        description: Ref of cnotv/agent-base whose recorder is used
+        required: false
+        type: string
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  pr-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/checkout@v7
+        with:
+          repository: cnotv/agent-base
+          ref: ${{ inputs.agent-base-ref }}
+          path: .agent-base
+
+      - if: hashFiles('pnpm-lock.yaml') != ''
+        uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Install the app
+        env:
+          INSTALL_COMMAND: ${{ inputs.install-command }}
+        run: sh -c "$INSTALL_COMMAND"
+
+      - name: Install the recorder
+        run: |
+          npm ci --prefix .agent-base --no-audit --no-fund
+          npx --prefix .agent-base playwright install --with-deps chromium
+
+      - name: Start the app
+        env:
+          START_COMMAND: ${{ inputs.start-command }}
+          PORT: ${{ inputs.port }}
+        run: |
+          nohup sh -c "$START_COMMAND" > "$RUNNER_TEMP/preview-server.log" 2>&1 &
+          for attempt in $(seq 1 90); do
+            if curl --silent --output /dev/null "http://localhost:$PORT"; then exit 0; fi
+            sleep 2
+          done
+          cat "$RUNNER_TEMP/preview-server.log"
+          exit 1
+
+      - name: Record
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PREVIEW_BASE_URL: http://localhost:${{ inputs.port }}
+          PREVIEW_DEFAULT_ROUTE: ${{ inputs.default-route }}
+          PREVIEW_SETTLE_MS: ${{ inputs.settle-ms }}
+          PREVIEW_OUTPUT_DIRECTORY: ${{ runner.temp }}/pr-preview
+        run: node .agent-base/scripts/pr-preview/record.ts
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: pr-preview
+          path: |
+            ${{ runner.temp }}/pr-preview/screenshot.png
+            ${{ runner.temp }}/pr-preview/video.webm
+          retention-days: 14
+          if-no-files-found: error
