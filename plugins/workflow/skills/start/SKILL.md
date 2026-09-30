@@ -30,6 +30,10 @@ ports and paths every skill below relies on.
 | `security` | A security review, a vulnerability, a dependency alert, hardening | `start-issue` -> `security-audit` (mode `full`, `change` or `advisory`) -> fix with a test -> `finish-change` -> `open-pr` |
 | `tests`    | Adding or repairing tests only                                   | `start-issue` -> write tests against the issue, not the implementation -> `finish-change` -> `open-pr` |
 | `chore`    | Tooling, dependencies, CI                                        | `start-issue` -> change -> checks -> `open-pr`                                                  |
+| `conflicts` | A pull request's branch conflicts with the default branch       | No new issue or branch: check out the pull request's branch -> bring in the default branch the way the repository's rules say -> resolve each conflict, keeping what both sides meant -> the repository's checks -> push -> update the pull request's body if the resolution changed what it describes |
+
+A conflict where both sides changed the same logic and keeping either loses behaviour is not
+resolved by guessing: stop and ask which behaviour wins.
 
 When a request fits two workflows, pick the one whose verification is stricter: `3d` over
 `feature`, `security` over `fix`.
