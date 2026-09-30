@@ -47,7 +47,11 @@ an exploratory prototype, which still owes them before the pull request is marke
 - **Config files hold data, never logic.**
 - **Update every call site** when a signature, type or export changes. No overloads, shims or
   deprecated aliases to keep old callers working.
-- **Comments explain why, never what.**
+- **Every exported function has a JSDoc comment**: one line on what it is for, then `@param`
+  and `@returns` (a component takes the line only). Types stay in TypeScript, not in the
+  comment. Enforce it with `eslint-plugin-jsdoc`: a rule nobody runs is a rule nobody keeps.
+- **Other comments explain why, never what.** If code needs a comment to say what it does,
+  rewrite the code.
 - **DRY and KISS.** Extract a pattern the second time it appears; prefer the simplest thing
   that works. Reuse what the repository already has before writing something new.
 
