@@ -22,10 +22,12 @@ reporting it wrong.
 
 ## Doc comments, and the linter that keeps them
 
-Every exported function has a JSDoc comment: one line on what it is for, then `@param` and
-`@returns`, with no blank lines between. A component takes the line only, as `/** … */`. Types
-stay in TypeScript, not in the comment. A comment that says why, not what, goes into the same
-block rather than above it.
+Every exported function has a JSDoc comment that describes what it is for and, where it is not
+obvious from the code, why it works the way it does: a constraint, a trade-off, what a caller
+must know. Write as many lines as that takes; a single line is right only when it truly says it
+all. Then `@param` for each argument and `@returns`, with no blank lines inside the block. A
+component gets the description without the tags. Types stay in TypeScript, not in the comment.
+A why-comment that sat above the function belongs in this block.
 
 The rule holds only because the linter runs it. Check that the repository's lint config turns on
 `eslint-plugin-jsdoc` with:
