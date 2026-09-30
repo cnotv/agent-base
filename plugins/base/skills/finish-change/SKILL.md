@@ -3,9 +3,9 @@ name: finish-change
 description: >-
   Use before claiming work is complete, done, finished, ready or working, and before
   committing or opening a pull request — "is this done", "wrap it up", "finish this off",
-  "ready to commit". Runs the repository's checks and walks its done-checklist: the
-  registrations, docs and follow-up procedures that are easy to omit and hard to notice
-  missing.
+  "ready to commit". Runs the repository's checks, makes sure every exported function has a
+  JSDoc comment and the linter enforces it, and walks the done-checklist: the registrations,
+  docs and follow-up procedures that are easy to omit and hard to notice missing.
 ---
 
 # Finishing a change
@@ -19,6 +19,24 @@ Run every command listed under **Checks** in the repository's Project facts. Rea
 "It should pass" is not evidence — if you did not see it pass, it did not pass. If any fail,
 the work is not finished, and reporting it as finished with a note about the failure is still
 reporting it wrong.
+
+## Doc comments, and the linter that keeps them
+
+Every exported function has a JSDoc comment that describes what it is for and, where it is not
+obvious from the code, why it works the way it does: a constraint, a trade-off, what a caller
+must know. Write as many lines as that takes; a single line is right only when it truly says it
+all. Then `@param` for each argument and `@returns`, with no blank lines inside the block. A
+component gets the description without the tags. Types stay in TypeScript, not in the comment.
+A why-comment that sat above the function belongs in this block.
+
+The rule holds only because the linter runs it. Check that the repository's lint config turns on
+`eslint-plugin-jsdoc` with:
+
+- `jsdoc/require-jsdoc`, with `publicOnly` and arrow functions included;
+- `jsdoc/require-param` and `jsdoc/require-returns`.
+
+Tests may be left out. If the config lacks it, adding it, and the comments it then asks for, is
+part of this change or its own issue opened now; it is never left unsaid.
 
 ## Walk the done-checklist
 
