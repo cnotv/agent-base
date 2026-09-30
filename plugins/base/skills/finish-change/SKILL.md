@@ -35,6 +35,9 @@ Then the lines that hold everywhere:
 - **Security-sensitive change** — the diff touches authentication, sessions, input handling,
   file or network access, secrets, dependencies, CI workflows or containers: `security-audit`
   was run in `change` mode and its report is in the pull request.
+- **Lint config** — it turns on `eslint-plugin-jsdoc` for exported functions, as the shared
+  agreements require. If it does not, adding it is part of this change or its own follow-up
+  issue, never left unsaid.
 - **Local skills** — any repository skill whose description covers what you touched (a
   performance check, a docs sync) was run.
 
