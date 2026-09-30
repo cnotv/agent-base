@@ -3,9 +3,9 @@ name: finish-change
 description: >-
   Use before claiming work is complete, done, finished, ready or working, and before
   committing or opening a pull request — "is this done", "wrap it up", "finish this off",
-  "ready to commit". Runs the repository's checks and walks its done-checklist: the
-  registrations, docs and follow-up procedures that are easy to omit and hard to notice
-  missing.
+  "ready to commit". Runs the repository's checks, makes sure every exported function has a
+  JSDoc comment and the linter enforces it, and walks the done-checklist: the registrations,
+  docs and follow-up procedures that are easy to omit and hard to notice missing.
 ---
 
 # Finishing a change
@@ -19,6 +19,22 @@ Run every command listed under **Checks** in the repository's Project facts. Rea
 "It should pass" is not evidence — if you did not see it pass, it did not pass. If any fail,
 the work is not finished, and reporting it as finished with a note about the failure is still
 reporting it wrong.
+
+## Doc comments, and the linter that keeps them
+
+Every exported function has a JSDoc comment: one line on what it is for, then `@param` and
+`@returns`, with no blank lines between. A component takes the line only, as `/** … */`. Types
+stay in TypeScript, not in the comment. A comment that says why, not what, goes into the same
+block rather than above it.
+
+The rule holds only because the linter runs it. Check that the repository's lint config turns on
+`eslint-plugin-jsdoc` with:
+
+- `jsdoc/require-jsdoc`, with `publicOnly` and arrow functions included;
+- `jsdoc/require-param` and `jsdoc/require-returns`.
+
+Tests may be left out. If the config lacks it, adding it, and the comments it then asks for, is
+part of this change or its own issue opened now; it is never left unsaid.
 
 ## Walk the done-checklist
 
@@ -35,9 +51,6 @@ Then the lines that hold everywhere:
 - **Security-sensitive change** — the diff touches authentication, sessions, input handling,
   file or network access, secrets, dependencies, CI workflows or containers: `security-audit`
   was run in `change` mode and its report is in the pull request.
-- **Lint config** — it turns on `eslint-plugin-jsdoc` for exported functions, as the shared
-  agreements require. If it does not, adding it is part of this change or its own follow-up
-  issue, never left unsaid.
 - **Local skills** — any repository skill whose description covers what you touched (a
   performance check, a docs sync) was run.
 
