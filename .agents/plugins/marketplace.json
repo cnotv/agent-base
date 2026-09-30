@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "base",
+      "name": "workflow",
       "source": {
         "source": "local",
-        "path": "./plugins/base"
+        "path": "./plugins/workflow"
       },
       "policy": {
         "installation": "AVAILABLE",

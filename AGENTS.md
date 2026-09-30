@@ -12,7 +12,7 @@ so it does not carry a copy of the managed block.
 - A skill states what to do; the repository it runs in says with which commands. If a skill
   needs a command, a port or a path, add a line to `templates/project-facts.md` and read it
   from Project facts.
-- `plugins/base/.claude-plugin/plugin.json` and `plugins/base/.codex-plugin/plugin.json` carry
+- `plugins/workflow/.claude-plugin/plugin.json` and `plugins/workflow/.codex-plugin/plugin.json` carry
   the same name, version and description. Bump the version in both on every release.
 - The status reporter must never block or fail a session: no output, a two-second timeout,
   and exit 0 on every path.
@@ -23,7 +23,7 @@ so it does not carry a copy of the managed block.
 
 - **Install:** `npm install`
 - **Checks:** `npm run typecheck`, `npm test`, `claude plugin validate .`,
-  `claude plugin validate ./plugins/base`, `shellcheck plugins/base/scripts/*.sh`
+  `claude plugin validate ./plugins/workflow`, `shellcheck plugins/workflow/scripts/*.sh`
 - **Docs home:** `README.md`
 - **Preview deploys:** none
 

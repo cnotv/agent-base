@@ -10,7 +10,7 @@ description: >-
 # Picking the workflow
 
 Classify the request, name the workflow out loud in one line, then follow its steps. If the
-session was opened with a workflow already named (`/base:start fix`), use that one and skip
+session was opened with a workflow already named (`/workflow:start fix`), use that one and skip
 the classification.
 
 Read the repository's `AGENTS.md` first: its **Project facts** section holds the commands,
