@@ -111,7 +111,8 @@ Run what fits the surfaces; each finding still goes through the checklist and tr
 
 - **Code**: `uvx semgrep scan --config p/default --error` (add `p/owasp-top-ten`, and the
   language packs such as `p/typescript`, `p/react`, `p/nodejsscan`, `p/python`).
-- **GitHub Actions**: `uvx zizmor --offline .github/workflows`. Its online audits call the
+- **GitHub Actions**: `uvx zizmor --offline .github/workflows` ([zizmor](https://docs.zizmor.sh),
+  [GitHub](https://github.com/zizmorcore/zizmor)). Its online audits call the
   GitHub API with whatever `GH_TOKEN` is in the environment; run them only when the user has
   said that token is meant for it. It flags every action not pinned to a commit; apply the
   pinning rule in `checklists/ci-and-infra.md` rather than pinning everything.

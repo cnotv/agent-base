@@ -6,8 +6,8 @@
   },
   "plugins": [
     {
-      "name": "base",
-      "source": "./plugins/base",
+      "name": "workflow",
+      "source": "./plugins/workflow",
       "description": "Workflow router, issue-to-PR procedures, verification and session status reporting"
     }
   ]
