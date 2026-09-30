@@ -5,9 +5,10 @@ description: >-
   opens one, without waiting to be asked — and again when the change is validated, to mark it
   ready. Also when explicitly asked to open, raise, create, submit or update one: "open the
   PR", "raise a PR", "make a pull request", "push this up", "update the PR description".
-  Covers the issue the PR closes, rebasing onto main, force-pushing safely, the PR body, the
-  preview screenshot and video, keeping the description current, watching the check gates to
-  green, and the abstraction review that closes out the work.
+  Covers the issue the PR closes, targeting the default branch, rebasing onto main,
+  force-pushing safely, the PR body, the preview screenshot and video, keeping the description
+  current, watching the check gates to green, and the abstraction review that closes out the
+  work.
 ---
 
 # Opening a pull request
@@ -45,8 +46,15 @@ Before the PR is marked ready, ask what should outlive the work, and route each 
 ## 3. Open it
 
 ```sh
-gh pr create --draft --title "<type>: <summary> (#<issue-number>)" --body-file <file>
+gh pr create --draft --base <default-branch> --title "<type>: <summary> (#<issue-number>)" --body-file <file>
 ```
+
+**The base is always the default branch**: `main`, or `master` in a repository that still uses
+that name (`gh repo view --json defaultBranchRef` says which). Only the user can name another
+base. Never target another pull request's branch to build on work that has not merged yet:
+merging into that branch leaves the change off the default branch, and its `Closes` line
+closes nothing. When the work needs an unmerged pull request, say so and wait for it to merge,
+or ask whether the two should become one pull request.
 
 The title ends with the issue number, as `feat: <summary> (#6)`, so GitHub links it to the
 issue; fix an existing title with `gh pr edit --title`. Only the title carries the number,
