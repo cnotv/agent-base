@@ -1,5 +1,5 @@
 # Reusable: records one screenshot and one video of a pull request's running app and uploads
-# them as the `pr-preview` artifact, which the agent dashboard shows next to the check gates.
+# them as the `pr-preview` artifact, which Dashi, the agent dashboard, shows next to the check gates.
 name: PR preview
 
 on:

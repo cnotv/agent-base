@@ -1,11 +1,15 @@
 #!/bin/sh
-# Forwards a hook payload to the agent dashboard. It must never block or fail a session:
-# without AGENT_DASHBOARD_URL it does nothing, and every network error is swallowed.
+# Forwards a hook payload to Dashi, the agent dashboard. It must never block or fail a session:
+# without DASHI_URL it does nothing, and every network error is swallowed. A machine set up
+# before the rename to Dashi has AGENT_DASHBOARD_URL and AGENT_DASHBOARD_TOKEN, still read when
+# the new names are unset.
 #
 # Claude Code passes the payload on stdin; Codex's `notify` passes it as the last argument.
 
 provider="${1:-claude}"
-[ -z "$AGENT_DASHBOARD_URL" ] && exit 0
+dashboard_url="${DASHI_URL:-${AGENT_DASHBOARD_URL:-}}"
+dashboard_token="${DASHI_TOKEN:-${AGENT_DASHBOARD_TOKEN:-}}"
+[ -z "$dashboard_url" ] && exit 0
 command -v curl >/dev/null 2>&1 || exit 0
 
 branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
@@ -18,9 +22,9 @@ else
 fi
 
 printf '%s' "$payload" | curl --silent --output /dev/null --max-time 2 \
-  --request POST "$AGENT_DASHBOARD_URL/api/events" \
+  --request POST "$dashboard_url/api/events" \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer ${AGENT_DASHBOARD_TOKEN:-}" \
+  --header "Authorization: Bearer $dashboard_token" \
   --header "X-Agent-Provider: $provider" \
   --header "X-Agent-Branch: $branch" \
   --header "X-Agent-Remote: $remote" \

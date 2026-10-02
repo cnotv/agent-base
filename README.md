@@ -6,7 +6,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | Path                                        | What it is                                                                          |
 | ------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `plugins/workflow/skills/`                  | The shared skills, in the open Agent Skills format (`SKILL.md`)                     |
-| `plugins/workflow/hooks/hooks.json`         | Claude Code hooks that report session status to the agent dashboard                 |
+| `plugins/workflow/hooks/hooks.json`         | Claude Code hooks that report session status to Dashi, the agent dashboard                 |
 | `plugins/workflow/scripts/report-status.sh` | The reporter, shared with Codex's `notify`                                          |
 | `AGENTS.base.md`                            | The shared agreements, copied into each repository's `AGENTS.md` as a managed block |
 | `templates/`                                | Project facts, pull request and issue templates for a new repository                |
@@ -70,7 +70,7 @@ their commands, ports and paths from Project facts.
 <!-- agent-base:end -->
 ```
 
-The agent dashboard compares the block with `AGENTS.base.md` and opens a pull request when it
+Dashi compares the block with `AGENTS.base.md` and opens a pull request when it
 drifts. Never edit the block in the repository.
 
 ### Pull request preview
@@ -93,10 +93,10 @@ the default.
 
 ### Session status
 
-The hooks do nothing unless `AGENT_DASHBOARD_URL` is set. With it (and
-`AGENT_DASHBOARD_TOKEN`), every session start, prompt, notification, stop and end is posted
-to the dashboard, with the branch and remote, so it can link sessions to issues and pull
-requests.
+The hooks do nothing unless `DASHI_URL` is set. With it (and `DASHI_TOKEN`), every session start, prompt, notification, stop and end is posted
+to [Dashi](https://github.com/cnotv/dashi), with the branch and remote, so it can link sessions
+to issues and pull requests. `AGENT_DASHBOARD_URL` and `AGENT_DASHBOARD_TOKEN`, the names from
+before the rename to Dashi, still work when the new ones are unset.
 
 ## Developing
 
