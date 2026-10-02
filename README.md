@@ -10,7 +10,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | `plugins/workflow/scripts/report-status.sh` | The reporter, shared with Codex's `notify`                                          |
 | `AGENTS.base.md`                            | The shared agreements, copied into each repository's `AGENTS.md` as a managed block |
 | `templates/`                                | Project facts, pull request and issue templates for a new repository                |
-| `.github/workflows/pr-preview.yml`          | Reusable workflow: one screenshot and one video per pull request                    |
+| `.github/workflows/pr-preview.yml`          | Reusable workflow: a screenshot, a video and a before screenshot per pull request   |
 
 ## Skills
 
@@ -92,6 +92,12 @@ A `Preview route: /some/route` line in the pull request body records that route 
 the default. When the feature is folded away or below the fold, `Preview click: <selector>`
 lines (up to five, clicked in order) unfold it and one `Preview show: <selector>` line scrolls
 it to the top before the screenshot. A selector that matches nothing fails the recording.
+
+The workflow then stops the app, starts the base branch the same way, and takes `before.png`
+of the same route with the same clicks, so Dashi can show the change as before and after. On
+the base branch a selector that matches nothing is skipped, since the feature may not exist
+yet. Nothing on the base branch can fail the preview: if it doesn't install, start or record,
+the artifact just has no `before.png`. `compare-with-base: false` turns it off.
 
 ### Session status
 

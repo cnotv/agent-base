@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { buildPreviewUrl, isSafeRoute, readPreviewClicks, readPreviewRoute, readPreviewShow } from './route.ts'
+import { buildPreviewUrl, isSafeRoute, readPreviewCapture, readPreviewClicks, readPreviewRoute, readPreviewShow } from './route.ts'
 
 describe('readPreviewRoute', () => {
   it('returns the default when the body has no preview line', () => {
@@ -79,5 +79,18 @@ describe('buildPreviewUrl', () => {
 
   it('adds a missing leading slash', () => {
     assert.equal(buildPreviewUrl('http://localhost:5317', 'games'), 'http://localhost:5317/games')
+  })
+})
+
+describe('readPreviewCapture', () => {
+  it('captures the base branch only when asked to', () => {
+    assert.equal(readPreviewCapture('base'), 'base')
+    assert.equal(readPreviewCapture(' Base '), 'base')
+  })
+
+  it('captures the pull request otherwise', () => {
+    assert.equal(readPreviewCapture(undefined), 'pull-request')
+    assert.equal(readPreviewCapture(''), 'pull-request')
+    assert.equal(readPreviewCapture('pull-request'), 'pull-request')
   })
 })
