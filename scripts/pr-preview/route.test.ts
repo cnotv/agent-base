@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { buildPreviewUrl, isSafeRoute, readPreviewRoute } from './route.ts'
+import { buildPreviewUrl, isSafeRoute, readPreviewClicks, readPreviewRoute, readPreviewShow } from './route.ts'
 
 describe('readPreviewRoute', () => {
   it('returns the default when the body has no preview line', () => {
@@ -28,6 +28,37 @@ describe('readPreviewRoute', () => {
 
   it('falls back on an empty body', () => {
     assert.equal(readPreviewRoute('', '/home'), '/home')
+  })
+})
+
+describe('readPreviewClicks', () => {
+  it('returns no clicks when the body has no click line', () => {
+    assert.deepEqual(readPreviewClicks('Preview route: /issues'), [])
+  })
+
+  it('reads every click line in body order, without backticks', () => {
+    const pullRequestBody = 'Preview route: /issues\nPreview click: `[aria-label="Unfold Closed"]`\npreview CLICK: text=Merged\n'
+    assert.deepEqual(readPreviewClicks(pullRequestBody), ['[aria-label="Unfold Closed"]', 'text=Merged'])
+  })
+
+  it('keeps at most five clicks and drops overlong selectors', () => {
+    const clickLines = Array.from({ length: 7 }, (_, clickIndex) => `Preview click: #step-${clickIndex}`)
+    const pullRequestBody = [`Preview click: ${'a'.repeat(201)}`, ...clickLines].join('\n')
+    assert.deepEqual(readPreviewClicks(pullRequestBody), ['#step-0', '#step-1', '#step-2', '#step-3', '#step-4'])
+  })
+})
+
+describe('readPreviewShow', () => {
+  it('returns null when the body has no show line', () => {
+    assert.equal(readPreviewShow('Preview click: #a'), null)
+  })
+
+  it('reads the selector without backticks', () => {
+    assert.equal(readPreviewShow('Preview show: `[aria-label="Fold Closed"]`'), '[aria-label="Fold Closed"]')
+  })
+
+  it('drops an overlong selector', () => {
+    assert.equal(readPreviewShow(`Preview show: ${'a'.repeat(201)}`), null)
   })
 })
 

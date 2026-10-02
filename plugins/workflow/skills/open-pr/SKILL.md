@@ -75,6 +75,11 @@ the agent dashboard, shows exactly these two next to the check gates.
   uploads them as the `pr-preview` artifact. Nothing to do by hand when it exists.
 - It opens the default route from its workflow inputs. When the change lives elsewhere, add a
   line to the body: `Preview route: /the/route`. It is picked up on the next push.
+- The recording is one 1280x800 viewport after load, so a feature behind a collapsed panel,
+  a tab or the fold is not in it. Add `Preview click: <selector>` lines (up to five, clicked in
+  order) to unfold it, and one `Preview show: <selector>` line to scroll it to the top, e.g.
+  `Preview click: [aria-label="Show Closed"]` then `Preview show: [aria-label="Fold Closed"]`.
+  Open the recorded screenshot and check the feature itself is in it, not just the page.
 - When the repository has no `pr-preview` workflow, capture them yourself from the running
   app (see `verify`) and put the first image and the first video in the body. Pin raw links
   to the commit sha, never the branch, and re-fetch the body to confirm the image renders.
