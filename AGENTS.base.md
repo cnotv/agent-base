@@ -68,7 +68,8 @@ an exploratory prototype, which still owes them before the pull request is marke
 
 A pull request that changes anything visible carries one screenshot and one video. The
 shared `pr-preview` workflow records both from the running app; put a `Preview route: /path`
-line in the body when the change is not on the default route.
+line in the body when the change is not on the default route, and `Preview click:` and
+`Preview show:` lines when it is folded away or below the fold.
 
 ### Definition of done
 

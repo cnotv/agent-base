@@ -89,7 +89,9 @@ jobs:
 ```
 
 A `Preview route: /some/route` line in the pull request body records that route instead of
-the default.
+the default. When the feature is folded away or below the fold, `Preview click: <selector>`
+lines (up to five, clicked in order) unfold it and one `Preview show: <selector>` line scrolls
+it to the top before the screenshot. A selector that matches nothing fails the recording.
 
 ### Session status
 
