@@ -68,8 +68,8 @@ enough to skim past has failed.
 
 ## 4. The screenshot and the video
 
-A pull request that changes anything visible carries **one screenshot and one video**. The
-agent dashboard shows exactly these two next to the check gates.
+A pull request that changes anything visible carries **one screenshot and one video**. Dashi,
+the agent dashboard, shows exactly these two next to the check gates.
 
 - The repository's `pr-preview` workflow records both from the running app on every push and
   uploads them as the `pr-preview` artifact. Nothing to do by hand when it exists.

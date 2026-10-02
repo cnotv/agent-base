@@ -55,7 +55,7 @@ git checkout -b <type>/<number>-<slug>
 - `slug` is a two or three word kebab-case summary of the issue title
 
 Always a fresh branch from main. Never commit to the current branch, and never reuse an
-existing feature branch. The agent dashboard links sessions, issues and pull requests through
+existing feature branch. Dashi, the agent dashboard, links sessions, issues and pull requests through
 this name, so a branch that breaks the pattern disappears from the board.
 
 If the session runs in an environment that assigns its own branch, say so in one line and
