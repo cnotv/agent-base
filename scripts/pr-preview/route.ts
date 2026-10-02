@@ -1,3 +1,5 @@
+import type { PreviewCapture } from './types.ts'
+
 const previewRouteLinePattern = /^\s*preview route\s*:\s*(\S+)\s*$/im
 const previewClickLinePattern = /^\s*preview click\s*:\s*(.+?)\s*$/gim
 const previewShowLinePattern = /^\s*preview show\s*:\s*(.+?)\s*$/im
@@ -42,3 +44,7 @@ export const readPreviewShow = (pullRequestBody: string): string | null => {
 
 export const buildPreviewUrl = (baseUrl: string, route: string): string =>
   `${baseUrl.replace(/\/+$/, '')}${route.startsWith('/') ? route : `/${route}`}`
+
+/** Reads PREVIEW_CAPTURE: `base` captures the base branch to compare with; anything else, the pull request. */
+export const readPreviewCapture = (captureSetting: string | undefined): PreviewCapture =>
+  captureSetting?.trim().toLowerCase() === 'base' ? 'base' : 'pull-request'

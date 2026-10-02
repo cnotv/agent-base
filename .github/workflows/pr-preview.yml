@@ -1,5 +1,6 @@
-# Reusable: records one screenshot and one video of a pull request's running app and uploads
-# them as the `pr-preview` artifact, which Dashi, the agent dashboard, shows next to the check gates.
+# Reusable: records one screenshot and one video of a pull request's running app, then the same
+# route on the base branch as a before screenshot, and uploads them as the `pr-preview` artifact,
+# which Dashi, the agent dashboard, shows next to the check gates.
 name: PR preview
 
 on:
@@ -32,6 +33,11 @@ on:
         required: false
         type: string
         default: '24'
+      compare-with-base:
+        description: Also capture the route on the base branch as before.png, to compare with
+        required: false
+        type: boolean
+        default: true
       agent-base-ref:
         description: Ref of cnotv/agent-base whose recorder is used
         required: false
@@ -78,18 +84,62 @@ jobs:
         env:
           START_COMMAND: ${{ inputs.start-command }}
           PORT: ${{ inputs.port }}
-        run: |
-          nohup sh -c "$START_COMMAND" > "$RUNNER_TEMP/preview-server.log" 2>&1 &
-          for attempt in $(seq 1 90); do
-            if curl --silent --output /dev/null "http://localhost:$PORT"; then exit 0; fi
-            sleep 2
-          done
-          cat "$RUNNER_TEMP/preview-server.log"
-          exit 1
+        run: .agent-base/scripts/pr-preview/start-app.sh "$RUNNER_TEMP/preview-server.log" "$RUNNER_TEMP/preview-server.pid"
 
       - name: Record
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
+          PREVIEW_BASE_URL: http://localhost:${{ inputs.port }}
+          PREVIEW_DEFAULT_ROUTE: ${{ inputs.default-route }}
+          PREVIEW_SETTLE_MS: ${{ inputs.settle-ms }}
+          PREVIEW_OUTPUT_DIRECTORY: ${{ runner.temp }}/pr-preview
+        run: node .agent-base/scripts/pr-preview/record.ts
+
+      # Every step on the base branch may fail without failing the preview: the pull request's own
+      # recording is what matters, and the before picture is a comparison on top of it.
+      - name: Stop the app
+        id: stop-app
+        if: inputs.compare-with-base && github.event.pull_request.base.sha != ''
+        continue-on-error: true
+        env:
+          PORT: ${{ inputs.port }}
+        run: .agent-base/scripts/pr-preview/stop-app.sh "$RUNNER_TEMP/preview-server.pid"
+
+      - name: Check out the base branch
+        id: base-checkout
+        if: steps.stop-app.outcome == 'success'
+        continue-on-error: true
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: .preview-base
+
+      - name: Install the base branch
+        id: base-install
+        if: steps.base-checkout.outcome == 'success'
+        continue-on-error: true
+        working-directory: .preview-base
+        env:
+          INSTALL_COMMAND: ${{ inputs.install-command }}
+        run: sh -c "$INSTALL_COMMAND"
+
+      - name: Start the base branch
+        id: base-start
+        if: steps.base-install.outcome == 'success'
+        continue-on-error: true
+        working-directory: .preview-base
+        env:
+          START_COMMAND: ${{ inputs.start-command }}
+          PORT: ${{ inputs.port }}
+        run: ../.agent-base/scripts/pr-preview/start-app.sh "$RUNNER_TEMP/preview-base.log" "$RUNNER_TEMP/preview-base.pid"
+
+      - name: Record the base branch
+        if: steps.base-start.outcome == 'success'
+        continue-on-error: true
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PREVIEW_CAPTURE: base
           PREVIEW_BASE_URL: http://localhost:${{ inputs.port }}
           PREVIEW_DEFAULT_ROUTE: ${{ inputs.default-route }}
           PREVIEW_SETTLE_MS: ${{ inputs.settle-ms }}
@@ -102,5 +152,6 @@ jobs:
           path: |
             ${{ runner.temp }}/pr-preview/screenshot.png
             ${{ runner.temp }}/pr-preview/video.webm
+            ${{ runner.temp }}/pr-preview/before.png
           retention-days: 14
           if-no-files-found: error
