@@ -18,6 +18,8 @@ const readOptionsFromEnvironment = (environment: NodeJS.ProcessEnv): PreviewReco
   viewportHeight: 800,
 })
 
+// The video ends where the screenshot is taken, so it lingers on the feature long enough to be seen.
+const featureHoldMilliseconds = 3000
 // Long enough for an unfold or a tab switch to finish its transition before the next step.
 const clickSettleMilliseconds = 800
 const clickTimeoutMilliseconds = 5000
@@ -67,6 +69,7 @@ export const recordPreview = async (options: PreviewRecordingOptions): Promise<P
   await scrollToTop(page, options.showSelector)
   const screenshotPath = join(options.outputDirectory, 'screenshot.png')
   await page.screenshot({ path: screenshotPath })
+  await page.waitForTimeout(featureHoldMilliseconds)
 
   await context.close()
   await browser.close()
