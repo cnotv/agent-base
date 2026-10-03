@@ -1,6 +1,6 @@
 {
   "name": "workflow",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Workflow router, issue-to-PR procedures, verification and session status reporting",
   "author": {
     "name": "cnotv"

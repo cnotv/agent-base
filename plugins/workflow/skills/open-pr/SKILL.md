@@ -15,7 +15,8 @@ description: >-
 
 The pull request opens as a draft at the first commit: it is where decisions are recorded
 while they are being made. It is marked ready once the change is validated (`finish-change`
-passed) and every check gate is green. Neither step waits to be asked.
+passed) and every check gate is green, and goes back to draft while a later change is made to
+it (section 7). None of these steps waits to be asked.
 
 ## 0. The issue it closes
 
@@ -112,6 +113,22 @@ gh issue edit <number> --body-file <file>   # when its description is now wrong
 
 Edit the body itself rather than appending a comment about it. Do it as part of the push, not
 as a final tidy-up.
+
+## 7. Changing a pull request that is ready
+
+When more work starts on a pull request that is already ready for review (changes asked for in
+a review or a chat, a failing gate, a conflict), put it back to draft before the first push:
+
+```sh
+gh pr ready --undo <number>
+```
+
+A draft tells reviewers, GitHub and Dashi's board that it is being changed. Once the change is
+validated again (`finish-change` passed, every gate green), mark it ready as before:
+
+```sh
+gh pr ready <number>
+```
 
 ## Definition of done
 
