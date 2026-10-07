@@ -56,6 +56,23 @@ For session status, point Codex's `notify` at the same reporter in `~/.codex/con
 notify = ["sh", "/path/to/agent-base/plugins/workflow/scripts/report-status.sh", "codex"]
 ```
 
+### What the reporter sends
+
+With each event the reporter sends the branch, remote and folder, and, so Dashi can say what
+started a session and what pays for it:
+
+- **`X-Agent-Launcher`:** `CLAUDE_CODE_ENTRYPOINT` (cli, sdk-ts, claude-vscode, ...).
+- **`X-Agent-Terminal`:** `TERM_PROGRAM`.
+- **`X-Agent-App`:** the app that started the agent. On macOS it is the bundle id the app hands
+  down. Elsewhere it is the nearest ancestor process that is not a shell or the runtime.
+- **`X-Agent-Billing`:**
+  - Claude Code: `api-key`, `bedrock`, `vertex`, `foundry` or `claude-login`.
+  - Codex: `api-key` or `chatgpt-login`.
+- **`X-Agent-Api-Host`:** the host of `ANTHROPIC_BASE_URL`, such as openrouter.ai.
+- **`X-Dashi-Start-Id`:** `DASHI_START_ID`, which Dashi's runner sets on the sessions it starts.
+
+It sends kinds and hosts only. A key's value is never read into a header.
+
 ### AGENTS.md
 
 Copy `AGENTS.base.md` between these markers in the repository's `AGENTS.md`, and add a

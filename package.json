@@ -6,7 +6,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "test": "node --test \"scripts/**/*.test.ts\"",
+    "test": "node --test \"scripts/**/*.test.ts\" \"plugins/**/*.test.ts\"",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
