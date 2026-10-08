@@ -54,6 +54,11 @@ describe('report-status.sh', () => {
     assert.equal(headers.get('x-dashi-start-id'), '0123abcd-0000-4000-8000-000000000000')
   })
 
+  it('names the cloud session it runs in, and nothing outside the cloud', () => {
+    assert.equal(reportedHeaders('claude', { CLAUDE_CODE_REMOTE_SESSION_ID: 'cse_01ABCdef' }).get('x-agent-cloud-session'), 'cse_01ABCdef')
+    assert.equal(reportedHeaders('claude', {}).get('x-agent-cloud-session'), '')
+  })
+
   it('names what pays for the session without ever sending a key', () => {
     const apiKeyHeaders = reportedHeaders('claude', {
       ANTHROPIC_API_KEY: 'sk-ant-secret-value',

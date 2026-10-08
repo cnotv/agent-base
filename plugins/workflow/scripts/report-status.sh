@@ -83,6 +83,7 @@ printf '%s' "$payload" | curl --silent --output /dev/null --max-time 2 \
   --header "X-Agent-Billing: $(billing)" \
   --header "X-Agent-Api-Host: $(one_line "$api_host")" \
   --header "X-Dashi-Start-Id: $(one_line "${DASHI_START_ID:-}")" \
+  --header "X-Agent-Cloud-Session: $(one_line "${CLAUDE_CODE_REMOTE_SESSION_ID:-}")" \
   --data-binary @- || true
 
 exit 0

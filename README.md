@@ -70,6 +70,8 @@ started a session and what pays for it:
   - Codex: `api-key` or `chatgpt-login`.
 - **`X-Agent-Api-Host`:** the host of `ANTHROPIC_BASE_URL`, such as openrouter.ai.
 - **`X-Dashi-Start-Id`:** `DASHI_START_ID`, which Dashi's runner sets on the sessions it starts.
+- **`X-Agent-Cloud-Session`:** `CLAUDE_CODE_REMOTE_SESSION_ID`, the cloud session a hook runs in, so
+  Dashi can show a routine's or cloud session's conversation and send to it. Empty elsewhere.
 
 It sends kinds and hosts only. A key's value is never read into a header.
 
