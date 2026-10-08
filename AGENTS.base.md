@@ -77,3 +77,5 @@ line in the body when the change is not on the default route, and `Preview click
 - [ ] The repository's own done-checklist under Project facts is walked
 - [ ] The issue and the pull request still describe the work accurately
 - [ ] Every artifact the issue named exists
+- [ ] The pull request is marked ready for review, without waiting to be asked, once everything
+      above holds and every check gate on its head is green
