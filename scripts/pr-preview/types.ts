@@ -8,6 +8,7 @@ export interface PreviewRecordingOptions {
   route: string
   clickSelectors: string[]
   showSelector: string | null
+  steps: string[]
   outputDirectory: string
   settleMilliseconds: number
   viewportWidth: number
@@ -18,4 +19,5 @@ export interface PreviewRecordingResult {
   screenshotPath: string
   videoPath: string | null
   url: string
+  steps: string[]
 }

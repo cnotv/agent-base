@@ -3,6 +3,9 @@ Closes #
 **Preview:** <!-- Deploy-preview URL including the route, when the repository has preview deploys. -->
 
 Preview route: /
+Preview step: Describe what the video shows first
+Preview click: #selector-to-click-first
+Preview step: Describe what the video shows next
 
 ## In short
 
