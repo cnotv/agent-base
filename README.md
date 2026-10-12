@@ -14,15 +14,23 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 
 ## Skills
 
-| Skill            | Use when                                                              |
-| ---------------- | --------------------------------------------------------------------- |
-| `start`          | first, on every new request: picks the workflow and lists its steps   |
-| `start-issue`    | before any code: the issue, main synced, the branch named             |
-| `open-pr`        | at the first commit, and again when validated                         |
-| `verify`         | confirming a change works or looks right in the running app           |
-| `finish-change`  | before claiming work is complete                                      |
-| `journey-doc`    | a finding is worth recording                                          |
-| `security-audit` | a security question, an alert, or a change to auth, input, deps or CI |
+| Skill              | Use when                                                              |
+| ------------------ | --------------------------------------------------------------------- |
+| `start`            | first, on every new request: picks the workflow and lists its steps   |
+| `start-issue`      | before any code: the issue, main synced, the branch named             |
+| `open-pr`          | at the first commit, and again when validated                         |
+| `verify`           | confirming a change works or looks right in the running app           |
+| `finish-change`    | before claiming work is complete                                      |
+| `journey-doc`      | a finding is worth recording                                          |
+| `security-audit`   | a security question, an alert, or a change to auth, input, deps or CI |
+| `texture`          | UV mapping, texture painting, PBR maps, baking, or atlasing          |
+| `rigging`          | skeletons, skinning, weight painting, constraints, or IK/FK setups    |
+| `animation`        | keyframe animation, timing, spacing, walk cycles, or blend trees      |
+| `shaders`          | writing, debugging, or optimizing GLSL, HLSL, or node-based shaders   |
+| `materials`        | PBR materials, transparency, emission, or material graphs             |
+| `models`           | 3D modeling, topology, retopology, LODs, or mesh optimization         |
+| `post-processing`  | bloom, SSAO, motion blur, DOF, colour grading, or tone mapping        |
+| `performance`      | profiling, draw call reduction, GPU/CPU bottlenecks, or optimization  |
 
 Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-pr`.
 
