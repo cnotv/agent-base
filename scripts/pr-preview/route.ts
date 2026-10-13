@@ -1,4 +1,4 @@
-import type { PreviewCapture } from './types.ts'
+import type { PreviewAction, PreviewCapture, PreviewTimelineEntry } from './types.ts'
 
 const previewRouteLinePattern = /^\s*preview route\s*:\s*(\S+)\s*$/im
 const previewClickLinePattern = /^\s*preview click\s*:\s*(.+?)\s*$/gim
@@ -55,6 +55,26 @@ export const readPreviewSteps = (pullRequestBody: string): string[] =>
   Array.from(pullRequestBody.matchAll(previewStepLinePattern), (stepMatch) => stripBackticks(stepMatch[1] ?? '').trim())
     .filter((caption) => caption !== '' && caption.length <= maximumStepLength)
     .slice(0, maximumStepCount)
+
+/**
+ * Pairs the step captions with the actions by position: caption one narrates the first click,
+ * and the show runs after the clicks. Neither list is cut to the other's length, so a click
+ * without a caption still runs and a caption without an action still shows.
+ */
+export const buildPreviewTimeline = (
+  steps: string[],
+  clickSelectors: string[],
+  showSelector: string | null,
+): PreviewTimelineEntry[] => {
+  const actions: PreviewAction[] = [
+    ...clickSelectors.map((selector): PreviewAction => ({ kind: 'click', selector })),
+    ...(showSelector === null ? [] : [{ kind: 'show', selector: showSelector } satisfies PreviewAction]),
+  ]
+  return Array.from({ length: Math.max(steps.length, actions.length) }, (_, timelineIndex) => ({
+    caption: steps[timelineIndex] ?? null,
+    action: actions[timelineIndex] ?? null,
+  }))
+}
 
 export const buildPreviewUrl = (baseUrl: string, route: string): string =>
   `${baseUrl.replace(/\/+$/, '')}${route.startsWith('/') ? route : `/${route}`}`

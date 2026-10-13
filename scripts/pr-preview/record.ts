@@ -1,8 +1,16 @@
 import { mkdir, readdir, rename, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { chromium, type Page } from 'playwright'
-import { buildPreviewUrl, readPreviewCapture, readPreviewClicks, readPreviewRoute, readPreviewShow, readPreviewSteps } from './route.ts'
-import type { PreviewCapture, PreviewRecordingOptions, PreviewRecordingResult } from './types.ts'
+import {
+  buildPreviewTimeline,
+  buildPreviewUrl,
+  readPreviewCapture,
+  readPreviewClicks,
+  readPreviewRoute,
+  readPreviewShow,
+  readPreviewSteps,
+} from './route.ts'
+import type { PreviewAction, PreviewCapture, PreviewRecordingOptions, PreviewRecordingResult, PreviewTimelineEntry } from './types.ts'
 
 // Software GL so canvas and WebGL scenes render on runners without a GPU.
 const chromiumArguments = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist']
@@ -66,7 +74,7 @@ const overlayScript = (): void => {
     'position:fixed;bottom:48px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;' +
     'padding:12px 28px;border-radius:10px;font-family:system-ui,-apple-system,sans-serif;font-size:17px;' +
     'font-weight:500;z-index:2147483646;max-width:85%;text-align:center;opacity:0;transition:opacity 0.3s ease;' +
-    'pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
+    'pointer-events:none;'
   document.body.appendChild(caption)
 
   const badge = document.createElement('div')
@@ -110,7 +118,6 @@ const ensureOverlays = async (page: Page): Promise<void> => {
 }
 
 const showCaption = async (page: Page, caption: string, step: number, total: number): Promise<void> => {
-  await ensureOverlays(page)
   await page.evaluate(
     ({ text, stepNumber, stepTotal }) => {
       const captionOverlay = document.getElementById('preview-caption')
@@ -131,15 +138,13 @@ const showCaption = async (page: Page, caption: string, step: number, total: num
 
 const hideOverlaysForScreenshot = async (page: Page): Promise<void> => {
   await page.evaluate(() => {
-    for (const id of ['preview-caption', 'preview-step', 'preview-cursor', 'preview-ripples']) {
-      document.getElementById(id)?.remove()
-    }
-    document.getElementById('preview-overlay-style')?.remove()
+    const overlayIds = ['preview-caption', 'preview-step', 'preview-cursor', 'preview-ripples', 'preview-overlay-style']
+    overlayIds.forEach((overlayId) => document.getElementById(overlayId)?.remove())
   })
 }
 
-// Moves the OS-level mouse in visible glides so the injected cursor travels across the video,
-// then clicks. locator.click alone would jump without a visible path.
+// Glides the mouse in small moves so the injected cursor travels across the video; locator.click
+// alone would teleport it with no visible path.
 const moveMouseTo = async (page: Page, x: number, y: number): Promise<void> => {
   await page.mouse.move(x, y, { steps: 25 })
   await page.waitForTimeout(250)
@@ -157,6 +162,45 @@ const clickOnce = async (page: Page, clickSelector: string, withCursor: boolean)
   await clickTarget.click({ timeout: clickTimeoutMilliseconds })
   await page.waitForTimeout(clickSettleMilliseconds)
 }
+
+const showOnce = async (page: Page, showSelector: string): Promise<void> => {
+  await page
+    .locator(showSelector)
+    .first()
+    .evaluate((shownElement) => shownElement.scrollIntoView({ block: 'start' }), undefined, {
+      timeout: clickTimeoutMilliseconds,
+    })
+  await page.waitForTimeout(clickSettleMilliseconds)
+}
+
+const runAction = (page: Page, capture: PreviewCapture, action: PreviewAction, withOverlays: boolean): Promise<void> =>
+  runStep(capture, `${action.kind} ${action.selector}`, () =>
+    action.kind === 'click' ? clickOnce(page, action.selector, withOverlays) : showOnce(page, action.selector),
+  )
+
+// A click that navigates wipes the overlays, so they are re-injected at every beat.
+const playTimelineEntry = async (
+  page: Page,
+  options: PreviewRecordingOptions,
+  timelineEntry: PreviewTimelineEntry,
+  timelineIndex: number,
+  withOverlays: boolean,
+): Promise<void> => {
+  if (withOverlays) await ensureOverlays(page)
+  if (withOverlays && timelineEntry.caption !== null) {
+    await showCaption(page, timelineEntry.caption, timelineIndex + 1, options.steps.length)
+  }
+  if (timelineEntry.action !== null) await runAction(page, options.capture, timelineEntry.action, withOverlays)
+}
+
+const playTimeline = (page: Page, options: PreviewRecordingOptions, withOverlays: boolean): Promise<void> =>
+  buildPreviewTimeline(options.steps, options.clickSelectors, options.showSelector).reduce(
+    async (previousEntry, timelineEntry, timelineIndex) => {
+      await previousEntry
+      await playTimelineEntry(page, options, timelineEntry, timelineIndex, withOverlays)
+    },
+    Promise.resolve(),
+  )
 
 // ─── Recording ─────────────────────────────────────────────────────────────────
 
@@ -193,38 +237,7 @@ export const recordPreview = async (options: PreviewRecordingOptions): Promise<P
     await moveMouseTo(page, 240, 240)
   }
 
-  // The timeline pairs each caption with its action: step[i] narrates click[i] (or the scroll
-  // when the clicks run out, or a hold when both run out). Extra clicks without captions still
-  // run; extra captions without actions still show.
-  const actions: Array<{ kind: 'click' | 'show'; selector: string }> = [
-    ...options.clickSelectors.map((selector) => ({ kind: 'click' as const, selector })),
-    ...(options.showSelector === null ? [] : [{ kind: 'show' as const, selector: options.showSelector }]),
-  ]
-  const timelineLength = Math.max(options.steps.length, actions.length)
-
-  for (let index = 0; index < timelineLength; index++) {
-    const caption = options.steps[index]
-    if (withOverlays && caption !== undefined) {
-      await showCaption(page, caption, index + 1, options.steps.length)
-    }
-    const action = actions[index]
-    if (action === undefined) continue
-    if (action.kind === 'click') {
-      const selector = action.selector
-      await runStep(options.capture, `click ${selector}`, () => clickOnce(page, selector, withOverlays))
-    } else {
-      const selector = action.selector
-      await runStep(options.capture, `show ${selector}`, async () => {
-        await page
-          .locator(selector)
-          .first()
-          .evaluate((shownElement) => shownElement.scrollIntoView({ block: 'start' }), undefined, {
-            timeout: clickTimeoutMilliseconds,
-          })
-        await page.waitForTimeout(clickSettleMilliseconds)
-      })
-    }
-  }
+  await playTimeline(page, options, withOverlays)
 
   if (withOverlays) {
     await hideOverlaysForScreenshot(page)
@@ -236,12 +249,12 @@ export const recordPreview = async (options: PreviewRecordingOptions): Promise<P
 
   await context.close()
   await browser.close()
-  if (!recordsVideo) return { screenshotPath, videoPath: null, url, steps: options.steps }
+  if (!recordsVideo) return { screenshotPath, videoPath: null, url }
 
   const videoPath = join(options.outputDirectory, 'video.webm')
   await rename(await findRecordedVideo(videoDirectory), videoPath)
   await rm(videoDirectory, { recursive: true, force: true })
-  return { screenshotPath, videoPath, url, steps: options.steps }
+  return { screenshotPath, videoPath, url }
 }
 
 const recordingResult = await recordPreview(readOptionsFromEnvironment(process.env))

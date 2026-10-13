@@ -1,6 +1,15 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { buildPreviewUrl, isSafeRoute, readPreviewCapture, readPreviewClicks, readPreviewRoute, readPreviewShow, readPreviewSteps } from './route.ts'
+import {
+  buildPreviewTimeline,
+  buildPreviewUrl,
+  isSafeRoute,
+  readPreviewCapture,
+  readPreviewClicks,
+  readPreviewRoute,
+  readPreviewShow,
+  readPreviewSteps,
+} from './route.ts'
 
 describe('readPreviewRoute', () => {
   it('returns the default when the body has no preview line', () => {
@@ -101,6 +110,29 @@ describe('readPreviewSteps', () => {
 
   it('drops overlong captions', () => {
     assert.deepEqual(readPreviewSteps(`Preview step: ${'a'.repeat(141)}`), [])
+  })
+})
+
+describe('buildPreviewTimeline', () => {
+  it('pairs each caption with the click at the same position, then the show', () => {
+    assert.deepEqual(buildPreviewTimeline(['Open the fold', 'See the list'], ['#fold'], '#list'), [
+      { caption: 'Open the fold', action: { kind: 'click', selector: '#fold' } },
+      { caption: 'See the list', action: { kind: 'show', selector: '#list' } },
+    ])
+  })
+
+  it('still runs the actions that have no caption', () => {
+    assert.deepEqual(buildPreviewTimeline([], ['#a', '#b'], null), [
+      { caption: null, action: { kind: 'click', selector: '#a' } },
+      { caption: null, action: { kind: 'click', selector: '#b' } },
+    ])
+  })
+
+  it('still shows the captions that have no action', () => {
+    assert.deepEqual(buildPreviewTimeline(['First', 'Second'], ['#a'], null), [
+      { caption: 'First', action: { kind: 'click', selector: '#a' } },
+      { caption: 'Second', action: null },
+    ])
   })
 })
 

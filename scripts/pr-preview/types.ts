@@ -19,5 +19,17 @@ export interface PreviewRecordingResult {
   screenshotPath: string
   videoPath: string | null
   url: string
-  steps: string[]
+}
+
+// One "Preview click:" or "Preview show:" line, run against the page in body order.
+export interface PreviewAction {
+  kind: 'click' | 'show'
+  selector: string
+}
+
+// One beat of the video: a "Preview step:" caption shown before its action. Either can be
+// missing when the body has more captions than actions, or more actions than captions.
+export interface PreviewTimelineEntry {
+  caption: string | null
+  action: PreviewAction | null
 }

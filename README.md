@@ -122,8 +122,9 @@ it to the top before the screenshot. A selector that matches nothing fails the r
 
 `Preview step: <caption>` lines (up to ten, in body order) turn the video into a narrated
 walkthrough: each caption appears as a subtitle with a `Step N of M` badge before its action,
-so step 1 narrates the first click, step 2 the second, and so on. A step with no click left
-still shows during the final hold. Whenever at least one step exists, the video also shows a
+so step 1 narrates the first click, step 2 the second, and the `Preview show:` comes after the
+clicks. A step with no action left still shows before the screenshot, and an action with no
+step still runs. Whenever at least one step exists, the video also shows a
 custom cursor that glides to each clicked element and a red ripple on every click, making the
 interaction visible on a runner with no real mouse. The overlays are removed before the
 screenshot, so the still image stays clean.
