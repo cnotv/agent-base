@@ -1,8 +1,9 @@
-import type { PreviewCapture } from './types.ts'
+import type { PreviewAction, PreviewCapture, PreviewTimelineEntry } from './types.ts'
 
 const previewRouteLinePattern = /^\s*preview route\s*:\s*(\S+)\s*$/im
 const previewClickLinePattern = /^\s*preview click\s*:\s*(.+?)\s*$/gim
 const previewShowLinePattern = /^\s*preview show\s*:\s*(.+?)\s*$/im
+const previewStepLinePattern = /^[ \t]*preview step[ \t]*:[ \t]*(.+?)[ \t]*$/gim
 
 // Enough to unfold a panel or open a tab on the way to a feature, short of a script.
 const maximumClickCount = 5
@@ -40,6 +41,39 @@ export const readPreviewShow = (pullRequestBody: string): string | null => {
   const showMatch = previewShowLinePattern.exec(pullRequestBody)
   const showSelector = showMatch?.[1] === undefined ? '' : stripBackticks(showMatch[1])
   return isUsableSelector(showSelector) ? showSelector : null
+}
+
+const maximumStepCount = 10
+const maximumStepLength = 140
+
+/**
+ * The captions of the "Preview step:" lines, in body order, shown as overlays during the video.
+ * Each step describes what the recording is about to do or has just done. The pattern stays
+ * within one line so an empty step line cannot swallow the line below it.
+ */
+export const readPreviewSteps = (pullRequestBody: string): string[] =>
+  Array.from(pullRequestBody.matchAll(previewStepLinePattern), (stepMatch) => stripBackticks(stepMatch[1] ?? '').trim())
+    .filter((caption) => caption !== '' && caption.length <= maximumStepLength)
+    .slice(0, maximumStepCount)
+
+/**
+ * Pairs the step captions with the actions by position: caption one narrates the first click,
+ * and the show runs after the clicks. Neither list is cut to the other's length, so a click
+ * without a caption still runs and a caption without an action still shows.
+ */
+export const buildPreviewTimeline = (
+  steps: string[],
+  clickSelectors: string[],
+  showSelector: string | null,
+): PreviewTimelineEntry[] => {
+  const actions: PreviewAction[] = [
+    ...clickSelectors.map((selector): PreviewAction => ({ kind: 'click', selector })),
+    ...(showSelector === null ? [] : [{ kind: 'show', selector: showSelector } satisfies PreviewAction]),
+  ]
+  return Array.from({ length: Math.max(steps.length, actions.length) }, (_, timelineIndex) => ({
+    caption: steps[timelineIndex] ?? null,
+    action: actions[timelineIndex] ?? null,
+  }))
 }
 
 export const buildPreviewUrl = (baseUrl: string, route: string): string =>

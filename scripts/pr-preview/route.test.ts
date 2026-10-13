@@ -1,6 +1,15 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { buildPreviewUrl, isSafeRoute, readPreviewCapture, readPreviewClicks, readPreviewRoute, readPreviewShow } from './route.ts'
+import {
+  buildPreviewTimeline,
+  buildPreviewUrl,
+  isSafeRoute,
+  readPreviewCapture,
+  readPreviewClicks,
+  readPreviewRoute,
+  readPreviewShow,
+  readPreviewSteps,
+} from './route.ts'
 
 describe('readPreviewRoute', () => {
   it('returns the default when the body has no preview line', () => {
@@ -79,6 +88,51 @@ describe('buildPreviewUrl', () => {
 
   it('adds a missing leading slash', () => {
     assert.equal(buildPreviewUrl('http://localhost:5317', 'games'), 'http://localhost:5317/games')
+  })
+})
+
+describe('readPreviewSteps', () => {
+  it('returns no steps when the body has no step line', () => {
+    assert.deepEqual(readPreviewSteps('Preview route: /issues'), [])
+  })
+
+  it('reads every step caption in body order, without backticks', () => {
+    const pullRequestBody = 'Preview step: Open the page\npreview STEP: `Click the fold`\n'
+    assert.deepEqual(readPreviewSteps(pullRequestBody), ['Open the page', 'Click the fold'])
+  })
+
+  it('keeps at most ten steps and drops empty captions', () => {
+    const stepLines = Array.from({ length: 12 }, (_, stepIndex) => `Preview step: Step ${stepIndex}`)
+    const pullRequestBody = ['Preview step: ', 'Preview step: ', ...stepLines].join('\n')
+    assert.equal(readPreviewSteps(pullRequestBody).length, 10)
+    assert.equal(readPreviewSteps(pullRequestBody)[0], 'Step 0')
+  })
+
+  it('drops overlong captions', () => {
+    assert.deepEqual(readPreviewSteps(`Preview step: ${'a'.repeat(141)}`), [])
+  })
+})
+
+describe('buildPreviewTimeline', () => {
+  it('pairs each caption with the click at the same position, then the show', () => {
+    assert.deepEqual(buildPreviewTimeline(['Open the fold', 'See the list'], ['#fold'], '#list'), [
+      { caption: 'Open the fold', action: { kind: 'click', selector: '#fold' } },
+      { caption: 'See the list', action: { kind: 'show', selector: '#list' } },
+    ])
+  })
+
+  it('still runs the actions that have no caption', () => {
+    assert.deepEqual(buildPreviewTimeline([], ['#a', '#b'], null), [
+      { caption: null, action: { kind: 'click', selector: '#a' } },
+      { caption: null, action: { kind: 'click', selector: '#b' } },
+    ])
+  })
+
+  it('still shows the captions that have no action', () => {
+    assert.deepEqual(buildPreviewTimeline(['First', 'Second'], ['#a'], null), [
+      { caption: 'First', action: { kind: 'click', selector: '#a' } },
+      { caption: 'Second', action: null },
+    ])
   })
 })
 

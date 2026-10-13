@@ -3,6 +3,8 @@ Closes #
 **Preview:** <!-- Deploy-preview URL including the route, when the repository has preview deploys. -->
 
 Preview route: /
+<!-- To narrate the video, add "Preview step: <caption>" lines, each before the
+     "Preview click: <selector>" it describes. A selector that matches nothing fails the recording. -->
 
 ## In short
 
