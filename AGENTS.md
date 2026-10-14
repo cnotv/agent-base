@@ -18,11 +18,14 @@ so it does not carry a copy of the managed block.
   and exit 0 on every path.
 - `AGENTS.base.md` is copied into other repositories verbatim, so it never refers to files in
   this repository.
+- `typescript` stays on a release typescript-eslint supports (below 6.1), because TypeScript 7
+  ships no JavaScript API for the linter to parse with. The typecheck runs TypeScript 7 from the
+  `typescript-native` alias.
 
 ## Project facts
 
 - **Install:** `npm install`
-- **Checks:** `npm run typecheck`, `npm test`, `claude plugin validate .`,
+- **Checks:** `npm run typecheck`, `npm run lint`, `npm test`, `claude plugin validate .`,
   `claude plugin validate ./plugins/workflow`, `shellcheck plugins/workflow/scripts/*.sh`
 - **Docs home:** `README.md`
 - **Preview deploys:** none

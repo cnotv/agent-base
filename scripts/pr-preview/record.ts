@@ -215,6 +215,12 @@ const findRecordedVideo = async (videoDirectory: string): Promise<string> => {
 // branch's is one screenshot, taken the same way so the two line up.
 const screenshotFileNames: Record<PreviewCapture, string> = { 'pull-request': 'screenshot.png', base: 'before.png' }
 
+/**
+ * Opens the route in a headless browser, plays the clicks and captions, and saves the screenshot,
+ * plus the video when this run captures the pull request rather than the base branch.
+ * @param options The app's URL and route, the viewport, the timeline and where to write.
+ * @returns The saved files and the URL they show.
+ */
 export const recordPreview = async (options: PreviewRecordingOptions): Promise<PreviewRecordingResult> => {
   const recordsVideo = options.capture === 'pull-request'
   const withOverlays = recordsVideo && options.steps.length > 0
