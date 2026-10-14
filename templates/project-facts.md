@@ -5,6 +5,8 @@ The base skills read this section instead of hardcoding commands. Keep every lin
 - **Install:** `pnpm install`
 - **Dev server:** `pnpm dev --port <port> --strictPort`, served at `http://localhost:<port>`
 - **Routes:** how a file maps to a URL, with one example
+- **Verify notes:** the page that says what driving this app needs — selectors, load waits,
+  harmless console noise — or "none"
 - **Checks:** `pnpm lint`, `pnpm test:unit`
 - **Docs home:** `documentation/docs/` — guides in `guides/`, findings in `journey/`
 - **Docs build:** `pnpm docs:build`

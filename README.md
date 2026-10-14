@@ -54,6 +54,12 @@ Add to the repository's `.claude/settings.json`, so every session, local or clou
 }
 ```
 
+Do not also copy the skills into the repository's `.claude/skills/`. Claude Code loads both,
+as `open-pr` and `workflow:open-pr`, and the model picks between two texts that drift apart. A
+local skill with the same name also hides what only that repository knows behind the generic
+text. Put repository-specific knowledge in Project facts, or in a local skill whose name does
+not collide, and list it under **Local skills**.
+
 ### Codex
 
 ```sh
