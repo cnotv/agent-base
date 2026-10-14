@@ -38,10 +38,13 @@ Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-p
 
 ### Claude Code
 
-Add to the repository's `.claude/settings.json`, so every session, local or cloud, installs it:
+Add to the repository's `.claude/settings.json`, so every session, local or cloud, installs it.
+`attribution` stops Claude Code from adding a session link, a `Co-Authored-By` trailer or a
+"Generated with Claude Code" line to commits and pull requests:
 
 ```json
 {
+  "attribution": { "commit": "", "pr": "", "sessionUrl": false },
   "extraKnownMarketplaces": {
     "cnotv": { "source": { "source": "github", "repo": "cnotv/agent-base" } }
   },
