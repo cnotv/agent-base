@@ -7,13 +7,21 @@
   },
   "scripts": {
     "test": "node --test \"scripts/**/*.test.ts\" \"plugins/**/*.test.ts\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "node node_modules/typescript-native/bin/tsc --noEmit",
+    "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
     "playwright": "^1.63.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^24.19.0",
-    "typescript": "^7.0.2"
+    "eslint": "^10.12.0",
+    "eslint-plugin-jsdoc": "^65.3.4",
+    "globals": "^17.13.0",
+    "jiti": "^2.6.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "typescript-native": "npm:typescript@^7.0.2"
   }
 }

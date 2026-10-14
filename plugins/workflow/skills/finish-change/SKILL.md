@@ -35,10 +35,10 @@ The rule holds only because the linter runs it. Check that the repository's lint
 - `jsdoc/require-jsdoc`, with `publicOnly` and arrow functions included;
 - `jsdoc/require-param` and `jsdoc/require-returns`.
 
-Tests may be left out. If the config lacks it, adding it, and the comments it then asks for, is
-part of this change or its own issue; it is never left unsaid. When the repository's rules say
-the lint config is changed only when asked, or an open issue already tracks adding it, link
-that issue in the pull request instead of opening another.
+Tests may be left out. Every TypeScript repository carries this lint; a rule that guards the lint
+config against edits does not exempt it. If the config lacks it, adding it, and the comments it
+then asks for, is part of this change or its own issue opened now, never a second one when an
+open issue already tracks it; it is never left unsaid.
 
 ## Walk the done-checklist
 

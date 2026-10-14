@@ -156,6 +156,7 @@ before the rename to Dashi, still work when the new ones are unset.
 ```sh
 npm install
 npm run typecheck
+npm run lint
 npm test
 claude plugin validate .
 ```
