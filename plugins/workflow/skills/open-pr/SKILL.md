@@ -70,6 +70,9 @@ git log --format=%B origin/<default-branch>..HEAD | grep -nE "$pattern"
 grep -nE "$pattern" <body-file>
 ```
 
+Re-read the body after creating the pull request too: a GitHub connector can append a footer
+with the session link on its own. Edit it out at once.
+
 **Open with In short**: three to five bullets for a reader who reads nothing else — what
 changed, why it matters, the one core idea, how to see it. Then write only what the diff
 cannot say: decisions, constraints, surprises. Link a doc instead of repeating it. A body long
