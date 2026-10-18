@@ -5,7 +5,8 @@ description: >-
   "create a material", "make it glow", "add a fresnel effect", "fix the
   shader error", "optimize the fragment shader", "make a toon shader", "add
   parallax". Covers GLSL, HLSL, ShaderLab, node-based shaders, the rendering
-  pipeline, lighting models, and shader debugging.
+  pipeline, lighting models, shader debugging, and procedural generation
+  techniques including noise, FBM, SDFs, and atmospheric perspective.
 ---
 
 # Shaders
@@ -101,7 +102,7 @@ color = mix(baseColor, reflectionColor, fresnel);
 
 ## 5. Node-based shaders
 
-In Blender, Unreal, or Shader Graph:
+In Blender, Unreal, or ShaderGraph:
 
 - **Principled BSDF** (Blender) / **Default Lit** (Unreal) covers 90% of
   materials. Start there and only add custom nodes when needed.
@@ -136,10 +137,130 @@ In Blender, Unreal, or Shader Graph:
   instead of alpha blend when possible.
 - **LOD shaders** — use a simpler shader variant for distant objects.
 
+## 8. GLSL language fundamentals
+
+### Data types
+
+| Type | Description |
+|------|-------------|
+| `int` | Integer |
+| `float` | Floating-point (must include decimal: `10.0` not `10`) |
+| `bool` | Boolean |
+| `vec2`/`vec3`/`vec4` | 2/3/4-component float vectors |
+| `mat2`/`mat3`/`mat4` | 2x2/3x3/4x4 float matrices (column-major) |
+| `sampler2D` | 2D image data |
+
+### Vector component access
+
+Three interchangeable notations — choose by context:
+
+- **Position**: `.x` `.y` `.z` `.w`
+- **Color**: `.r` `.g` `.b` `.a`
+- **Texture**: `.s` `.t` `.p` `.q`
+
+### Storage qualifiers
+
+| Qualifier | Scope | Use Case |
+|-----------|-------|----------|
+| `const` | Anywhere | Immutable values |
+| `attribute` | Vertex only | Per-vertex data (position, UV) |
+| `uniform` | Both shaders | Shared across all vertices (time, resolution) |
+| `varying` | Vertex to Fragment | Interpolated data across fragments |
+
+### Precision qualifiers
+
+`lowp`, `mediump`, `highp` — set globally with `precision highp float;`
+
+### Built-in functions
+
+| Function | Description |
+|----------|-------------|
+| `mix(a, b, t)` | Linear interpolation |
+| `smoothstep(e0, e1, x)` | Hermite interpolation (S-curve) |
+| `texture2D(sampler, uv)` | Texture sampling |
+| `dot(a, b)` | Dot product |
+| `cross(a, b)` | Cross product |
+| `normalize(v)` | Unit vector |
+| `length(v)` | Vector magnitude |
+| `fract(x)` | Fractional part |
+| `pow(x, y)` | Exponentiation |
+| `exp(x)` | e^x |
+
+### Common pitfalls
+
+- `float x = 10;` is an error — use `10.0`
+- Passing raw pixel coords as color clamps to 1.0 — divide by resolution first
+- Always normalize inputs to `dot()` and `pow()`
+
+## 9. Procedural generation techniques
+
+### Noise and Fractal Brownian Motion (FBM)
+
+```glsl
+float fbm(vec2 p) {
+    float sum = 0.0;
+    for (int i = 0; i < 8; i++) {
+        sum += noise(p);
+        p = p * 2.0 + offset;
+        p = rotate(p, angle);
+    }
+    return sum;
+}
+```
+
+Layer compressed + rotated noise at increasing frequencies for natural-looking terrain, clouds, and textures. Use Pythagorean triples (3-4-5, 8-15-17) for quick rotation matrices.
+
+### Signed Distance Functions (SDFs)
+
+- Return distance to nearest surface: `< 0` inside, `= 0` on surface, `> 0` outside
+- Circle: `length(p) - r`
+- Boolean logic: union = `min(a, b)`, intersection = `max(a, b)`, subtraction = `max(a, -b)`
+
+### Atmospheric perspective
+
+```glsl
+float fogFactor = exp(-k * distance);
+vec3 finalColor = mix(surfaceColor, skyColor, fogFactor);
+```
+
+Use different damping constants per RGB channel — blue scatters more, creating realistic aerial perspective.
+
+### Surface normal from heightfield
+
+```glsl
+vec3 tangentX = vec3(1.0, dFdx, 0.0);
+vec3 tangentZ = vec3(0.0, dFdz, 1.0);
+vec3 normal = normalize(cross(tangentX, tangentZ));
+float diffuse = max(dot(normal, sunDir), 0.0);
+```
+
+### Resolution-independent coordinates
+
+```glsl
+uniform vec2 u_resolution;
+vec2 uv = gl_FragCoord.xy / u_resolution;
+```
+
+### Soft shadows via SDF
+
+```glsl
+float shadow = min(R, smoothstep(0.0, 1.0, R / T));
+```
+
+### Contrast curves with smoothstep
+
+Apply smoothstep to final color for contrast adjustment — makes dark colors darker and bright colors brighter.
+
+## 10. Naming conventions
+
+- Uniforms: `u_time`, `u_resolution`, `u_mouse`
+- Attributes: `a_position`, `a_textCoord`
+- Varyings: `v_texCoord` or `st`
+
 ## Definition of done
 
-The shader compiles without errors or warnings on the target platform, the
-visual output matches the intended effect (verified in the renderer, not just
-in code review), the math is correct (normalized inputs, correct colour
-space), the node graph is organized and named, and performance is acceptable
-for the target hardware.
+The shader compiles without errors or warnings on the target platform, the visual output matches the intended effect (verified in the renderer, not just in code review), the math is correct (normalized inputs, correct colour space), the node graph is organized and named, and performance is acceptable for the target hardware.
+
+## Sources
+
+Content in sections 8-10 was extracted from the [Shaders playlist](https://www.youtube.com/playlist?list=PLsRZURHSo1vKy49Xg6Zu3s_gI_OO1rnmC) — a curated collection of shader programming tutorials by kishimisu, Wael Yasmina, Barney Codes, Inigo Quilez, and The Art of Code.
