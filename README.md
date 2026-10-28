@@ -6,7 +6,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | Path                                        | What it is                                                                          |
 | ------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `plugins/workflow/skills/`                  | The shared skills, in the open Agent Skills format (`SKILL.md`)                     |
-| `plugins/workflow/hooks/hooks.json`         | Claude Code hooks that report session status to Dashi, the agent dashboard                 |
+| `plugins/workflow/hooks/hooks.json`         | Claude Code hooks that report session status to Dashi, the agent dashboard          |
 | `plugins/workflow/scripts/report-status.sh` | The reporter, shared with Codex's `notify`                                          |
 | `AGENTS.base.md`                            | The shared agreements, copied into each repository's `AGENTS.md` as a managed block |
 | `templates/`                                | Project facts, pull request and issue templates for a new repository                |
@@ -14,23 +14,24 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 
 ## Skills
 
-| Skill              | Use when                                                              |
-| ------------------ | --------------------------------------------------------------------- |
-| `start`            | first, on every new request: picks the workflow and lists its steps   |
-| `start-issue`      | before any code: the issue, main synced, the branch named             |
-| `open-pr`          | at the first commit, and again when validated                         |
-| `verify`           | confirming a change works or looks right in the running app           |
-| `finish-change`    | before claiming work is complete                                      |
-| `journey-doc`      | a finding is worth recording                                          |
-| `security-audit`   | a security question, an alert, or a change to auth, input, deps or CI |
-| `texture`          | UV mapping, texture painting, PBR maps, baking, or atlasing          |
-| `rigging`          | skeletons, skinning, weight painting, constraints, or IK/FK setups    |
-| `animation`        | keyframe animation, timing, spacing, walk cycles, or blend trees      |
-| `shaders`          | writing, debugging, or optimizing GLSL, HLSL, or node-based shaders   |
-| `materials`        | PBR materials, transparency, emission, or material graphs             |
-| `models`           | 3D modeling, topology, retopology, LODs, or mesh optimization         |
-| `post-processing`  | bloom, SSAO, motion blur, DOF, colour grading, or tone mapping        |
-| `performance`      | profiling, draw call reduction, GPU/CPU bottlenecks, or optimization  |
+| Skill             | Use when                                                              |
+| ----------------- | --------------------------------------------------------------------- |
+| `start`           | first, on every new request: picks the workflow and lists its steps   |
+| `start-issue`     | before any code: the issue, main synced, the branch named             |
+| `open-pr`         | at the first commit, and again when validated                         |
+| `verify`          | confirming a change works or looks right in the running app           |
+| `finish-change`   | before claiming work is complete                                      |
+| `journey-doc`     | a finding is worth recording                                          |
+| `security-audit`  | a security question, an alert, or a change to auth, input, deps or CI |
+| `texture`         | UV mapping, texture painting, PBR maps, baking, or atlasing           |
+| `rigging`         | skeletons, skinning, weight painting, constraints, or IK/FK setups    |
+| `animation`       | keyframe animation, timing, spacing, walk cycles, or blend trees      |
+| `shaders`         | writing, debugging, or optimizing GLSL, HLSL, or node-based shaders   |
+| `materials`       | PBR materials, transparency, emission, or material graphs             |
+| `models`          | 3D modeling, topology, retopology, LODs, or mesh optimization         |
+| `post-processing` | bloom, SSAO, motion blur, DOF, colour grading, or tone mapping        |
+| `performance`     | profiling, draw call reduction, GPU/CPU bottlenecks, or optimization  |
+| `music-sound`     | music or a sound effect, rendered from Strudel to WAV or MIDI         |
 
 Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-pr`.
 
