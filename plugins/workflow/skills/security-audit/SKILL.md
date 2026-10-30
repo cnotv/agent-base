@@ -52,13 +52,14 @@ Before reading code line by line, write down, briefly:
   acts on it.
 - **Surfaces present**, each with its own checklist in `checklists/`:
 
-  | Surface                    | Checklist                      |
-  | -------------------------- | ------------------------------ |
-  | Browser client             | `checklists/client.md`         |
-  | HTTP server or API         | `checklists/server.md`         |
-  | CI, containers, deployment | `checklists/ci-and-infra.md`   |
-  | AI agents and LLM features | `checklists/agents-and-llm.md` |
-  | Devices, MQTT, firmware    | `checklists/iot.md`            |
+  | Surface                    | Checklist                              |
+  | -------------------------- | -------------------------------------- |
+  | Browser client             | `checklists/client.md`                 |
+  | HTTP server or API         | `checklists/server.md`                 |
+  | CI, containers, deployment | `checklists/ci-and-infra.md`           |
+  | AI agents and LLM features | `checklists/agents-and-llm.md`         |
+  | Devices, MQTT, firmware    | `checklists/iot.md`                    |
+  | Static or SPA site hosting | `checklists/static-and-spa-hosting.md` |
 
 If the repository's Project facts has a **Security** line pointing at a threat model, start
 from it and update it when the map changes.
