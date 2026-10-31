@@ -128,7 +128,7 @@ impact lands on a frame. Use the one the picture calls for.
 | Mix loudness, web | aim for -16 LUFS, as heard on phones and laptops (IESD says -16 mobile, Sony -18, both ±2 LU) |
 | Console reference | -24 LUFS; -23 LUFS is broadcast, not games                                                    |
 | True peak         | -1 dBTP or lower                                                                              |
-| Long loops        | MP3 can gain frames in Safari, so a loop may gap: test the seam in Safari before shipping     |
+| Long loops        | test the seam; Safari added frames to MP3s until macOS Monterey fixed it in 2021              |
 
 These platforms' targets change, so check the current document before quoting one to the user.
 
@@ -140,5 +140,5 @@ These platforms' targets change, so check the current document before quoting on
 [Krotos on footsteps](https://krotos.studio/blog/footsteps-sound-effects),
 [Ableton on trailer impacts](https://www.ableton.com/en/blog/learn-how-to-make-high-impact-sounds-for-movies-and-trailers/),
 [IESD reference levels](https://www.audiogang.org/wp-content/uploads/2015/04/IESD-Mix-Ref-Levels-v03.02.pdf),
-[Audiokinetic on mastering](https://audiokinetic.com/en/mastering-a-game-with-wwise-part1),
+[Audiokinetic on mastering](https://www.audiokinetic.com/en/community/blog/mastering-a-game-with-wwise-part1/),
 [WebKit MP3 bug](https://bugs.webkit.org/show_bug.cgi?id=228215).

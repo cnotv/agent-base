@@ -28,6 +28,10 @@ Envelope shapes to think in: percussive is near-zero attack with `sustain(0)`; p
 short filter envelope; held has a real `sustain`; a pad has an attack and a release both over a
 second.
 
+Slow modulation is heard as behaviour and fast modulation as timbre: speed up an LFO and a wobble
+turns harsh or metallic. A percussive sound is often a pitched one with its envelopes shortened: a
+kick is a laser with a far faster pitch envelope and the amplitude left to ring.
+
 **A signal is sampled once per event.** On one long note, `.lpf(saw.range(200, 8000))` stays at
 200 for the whole note, and moving `.segment(64)` onto that argument changes nothing, because
 `s("white")` still owns the structure. Use an envelope, or segment the sound itself:

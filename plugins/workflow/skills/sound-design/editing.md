@@ -18,9 +18,8 @@ out the order before processing, and export a copy after each step that was hard
 ## Order of operations
 
 Cut first, hum second, noise third, level last. Each step works better on the output of the one
-before: the Audacity manual puts a notch for hum before Noise Reduction, and its support pages
-put a gate after it, so reduction can stay gentler. Normalising before cleaning raises the noise
-too.
+before: the Audacity manual puts a notch for hum first, then mild Noise Reduction on what is left.
+Normalising before cleaning raises the noise too.
 
 ## Waveform work
 
@@ -60,7 +59,7 @@ pass it as `nf`. `afftdn`'s `sn` command for sampling a noise profile had no eff
 test.
 
 Use the fewest notches that work: each adds a little ringing. A notch also removes any music at
-that frequency.
+that frequency. In Audacity, a Q of about 2 to 10 suits hum, higher on higher harmonics.
 
 Audacity's Noise Reduction defaults are 6 dB, sensitivity 6, smoothing 6 bands. Use the lowest
 values that work. Too low a sensitivity leaves "musical noise": random tinkling tones, meaning
