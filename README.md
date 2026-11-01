@@ -6,7 +6,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | Path                                        | What it is                                                                          |
 | ------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `plugins/workflow/skills/`                  | The shared skills, in the open Agent Skills format (`SKILL.md`)                     |
-| `plugins/workflow/hooks/hooks.json`         | Claude Code hooks that report session status to Dashi, the agent dashboard                 |
+| `plugins/workflow/hooks/hooks.json`         | Claude Code hooks that report session status to Dashi, the agent dashboard          |
 | `plugins/workflow/scripts/report-status.sh` | The reporter, shared with Codex's `notify`                                          |
 | `AGENTS.base.md`                            | The shared agreements, copied into each repository's `AGENTS.md` as a managed block |
 | `templates/`                                | Project facts, pull request and issue templates for a new repository                |
