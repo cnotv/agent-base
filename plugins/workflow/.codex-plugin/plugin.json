@@ -7,5 +7,11 @@
   },
   "repository": "https://github.com/cnotv/agent-base",
   "license": "MIT",
-  "skills": "./skills/"
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "cnotv agent base",
+    "shortDescription": "Shared workflows for every cnotv repository",
+    "category": "Productivity",
+    "developerName": "cnotv"
+  }
 }
