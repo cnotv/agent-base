@@ -32,6 +32,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | `post-processing` | bloom, SSAO, motion blur, DOF, colour grading, or tone mapping        |
 | `performance`     | profiling, draw call reduction, GPU/CPU bottlenecks, or optimization  |
 | `music-sound`     | music or a sound effect, rendered from Strudel to WAV or MIDI         |
+| `sound-design`    | what a sound is made of, editing audio, or judging one unheard        |
 
 Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-pr`.
 
