@@ -31,6 +31,9 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | `models`           | 3D modeling, topology, retopology, LODs, or mesh optimization         |
 | `post-processing`  | bloom, SSAO, motion blur, DOF, colour grading, or tone mapping        |
 | `performance`      | profiling, draw call reduction, GPU/CPU bottlenecks, or optimization  |
+| `music-sound`      | music or a sound effect, rendered from Strudel to WAV or MIDI         |
+| `sound-design`     | what a sound should be made of, and how to judge it unheard           |
+| `audio-brief`      | converts a vague natural-language request into a structured brief for music or sound design |
 
 Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-pr`.
 
