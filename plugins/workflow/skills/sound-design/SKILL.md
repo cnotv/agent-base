@@ -92,3 +92,14 @@ values, not as copies of one file.
 | Raising the gain until a thin sound is loud                     | add the missing band instead                                                                     |
 | Reporting that a sound "sounds good"                            | you did not hear it: report the measurements, and ask the user to listen before calling it final |
 | Pressing Play to check it                                       | never: nothing may play aloud, and the render and the measurements are silent                    |
+
+## 5. Soundscape (Scene Composition)
+
+When the request is a scene rather than one sound, build from the brief produced by `audio-brief`:
+- Define the world (material, technology, scale, distance, emotion)
+- Reference analysis (three references, what to borrow and avoid)
+- Palette (3-5 core sources with shared pitch centre)
+- Sound-set consistency (interval vocabulary for UI sounds, loudness hierarchy)
+- Scene composition (ambience bed, events, transitions, silence; density over time)
+- Musical fit (match the project key and tempo, tune impacts, avoid masking)
+- Game mix (priority, ducking, variation, loop seams, distance/occlusion)
