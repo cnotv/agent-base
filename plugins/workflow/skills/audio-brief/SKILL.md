@@ -1,7 +1,9 @@
 ---
 name: audio-brief
 description: >-
-  Converts natural language requests into structured parameters for music and sound design workflows.
+  Use when asked to turn a vague audio request into structured parameters, or before `music-sound`
+  or `sound-design` when a natural-language request needs clarification. Converts natural language
+  requests into structured parameters for music and sound design workflows.
   Takes a vague request (e.g., "make a spooky cave loop, not too scary, 30 seconds, dripping water")
   and produces a one-page brief with all the technical and artistic parameters needed to compose a sound.
 ---
