@@ -28,6 +28,16 @@ Pull out what the request already says:
 - Must-not: what to avoid
 - Acceptance: how it should feel, energy level, mix priority
 
+## 2.5 Verify Definitions (before filling)
+
+Before writing any pattern, confirm the domain definitions that the brief references:
+- Genre / style: search the documentation or a reference source for the genre's typical patterns, tempo ranges, harmonic vocabulary, and common instrumentation. State the source.
+- Instruments / sources: check the repository's loaded samples (`strudel-sound`'s samples and banks) and confirm each instrument name exists; if an instrument is missing, propose an alternative or a synthesized equivalent.
+- Patterns / forms: for loops, confirm the loop point aligns with the form; for cues, confirm a clear build/climax/resolve structure; for ambience, confirm no conflicting rhythmic elements.
+- Technical limits: confirm sample rate, loudness targets, and file size constraints from Project facts or the sound-design skill.
+
+Record the verification in the brief's `Assumptions` block: what was checked, what was found, and what was decided when information was missing.
+
 ## 3. Fill Missing Fields
 
 If any required parameter is missing, ask a clarifying question (maximum three). The user must provide:

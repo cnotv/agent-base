@@ -57,7 +57,7 @@ A silent or clipped WAV, or a MIDI file with an empty track, goes back to step 1
 
 ## 5. Composition Guidance
 
-Before writing a pattern, use `audio-brief` to produce a brief that specifies:
+Before writing a pattern, verify the genre/style definitions and instrument names (search reference sources and check loaded samples), then use `audio-brief` to produce a brief that specifies:
 - Job (loop, cue, jingle, menu bed, gameplay layer)
 - Length, loop point, tempo, meter
 - Key / mode, harmonic rhythm, form (A-A-B-A, build/climax/resolve)
