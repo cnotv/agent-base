@@ -54,3 +54,19 @@ headless with `--mute-audio`, render offline, and never press Play in a visible 
 Read the file back: a WAV's length and its peak level (well above zero where it should sound,
 below 1.0 where it should not clip); a MIDI file's tempo, track count and note count per track.
 A silent or clipped WAV, or a MIDI file with an empty track, goes back to step 1.
+
+## 5. Composition Guidance
+
+Before writing a pattern, verify the genre/style definitions and instrument names (search reference sources and check loaded samples), then use `audio-brief` to produce a brief that specifies:
+- Job (loop, cue, jingle, menu bed, gameplay layer)
+- Length, loop point, tempo, meter
+- Key / mode, harmonic rhythm, form (A-A-B-A, build/climax/resolve)
+- Palette (drums, bass, chords, melody, effects)
+- Energy curve and space
+
+Write the pattern from the brief. A loop repeats at bar 16; a cue has a clear build and resolve.
+Melody first or rhythm first depends on the brief, but never start with a full harmony: write
+one motif, then expand. Check the brief at every step — if the sound does not match the brief,
+re-write the brief or the pattern.
+
+Use the sound-design steps to measure the result and check the mix, then listen with the user.
