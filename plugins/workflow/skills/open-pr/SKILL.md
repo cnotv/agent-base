@@ -146,9 +146,35 @@ validated again (`finish-change` passed, every gate green), mark it ready as bef
 gh pr ready <number>
 ```
 
+## 8. Auto-merge, only when the repository opts in
+
+Skip this section unless the repository's Project facts carry `**Auto-merge:** squash`. Without
+that line a person merges the pull request, as before.
+
+With it, right after marking the pull request ready, queue the merge:
+
+```sh
+gh pr merge <number> --auto --squash --delete-branch
+```
+
+GitHub then squash merges it once every required check is green, and deletes the branch. Run
+it after `gh pr ready`, never on a draft. Run it again whenever the pull request has been put
+back to draft and marked ready again (section 7).
+
+It is only safe when the repository has two things in place, which the owner sets up once:
+
+- **`allow_auto_merge` is on** for the repository (`gh repo edit --enable-auto-merge`).
+- **A branch ruleset on the default branch requires the CI checks.** Without required checks
+  GitHub merges the moment the pull request is mergeable, before anything has run.
+
+When `gh pr merge --auto` fails because either is missing, do not merge by hand to get
+around it. Leave the pull request ready and report what is missing.
+
 ## Definition of done
 
 Every check gate is green, the description matches what is on the branch, the linked issue
 still describes the work, the abstraction review is filled in (including "nothing
 generalizable"), and the screenshot and video are present for any visible change. End the
 report with a link to the pull request.
+
+When the repository opts in to auto-merge, the report also says that the merge is queued.
