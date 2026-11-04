@@ -14,6 +14,7 @@ The base skills read this section instead of hardcoding commands. Keep every lin
 - **Security:** the audit commands this repository runs (for example `pnpm audit --prod`), and
   where its threat model lives, or "none"
 - **Sound export:** the command that renders a Strudel pattern to WAV or MIDI, or "none"
+- **Glossary:** the file that defines this repository's terms, `GLOSSARY.md` by default, or "none"
 - **Scoped rules:** `.claude/rules/`
 - **Local skills:** skills that exist only in this repository
 
