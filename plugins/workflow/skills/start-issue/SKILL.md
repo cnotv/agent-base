@@ -78,7 +78,8 @@ not append a changelog of the edit.
 
 ## Breaking a large issue into subtasks
 
-Create each subtask as its own issue, then attach it with GitHub's native sub-issue
+When the subtasks are tickets for other sessions, `split` publishes them instead. Otherwise create
+each subtask as its own issue, then attach it with GitHub's native sub-issue
 relationship so progress is tracked:
 
 ```sh

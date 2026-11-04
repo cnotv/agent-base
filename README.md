@@ -34,8 +34,18 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | `music-sound`     | music or a sound effect, rendered from Strudel to WAV or MIDI         |
 | `sound-design`    | what a sound is made of, editing audio, or judging one unheard        |
 | `audio-brief`     | converts a vague natural-language request into a structured brief for music or sound design |
+| `grilling`        | a plan needs stress-testing: rounds of questions until every decision is settled |
+| `grill-with-docs` | grilling that also keeps the glossary and records the decisions            |
+| `to-spec`         | a grilled plan becomes the spec in the epic's body                    |
+| `to-tickets`      | a spec is drafted into vertical-slice tickets the owner approves      |
+| `split`           | approved tickets become sub-issues with blocked-by links and an `Agent:` line |
+| `review-pr`       | a pull request is reviewed against the standards and its ticket, as one comment |
 
 Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-pr`.
+
+`grilling`, `grill-with-docs`, `to-spec`, `to-tickets` and `review-pr` are adapted from
+[mattpocock/skills](https://github.com/mattpocock/skills) under the MIT License; the notice
+is in `plugins/workflow/NOTICE.md`.
 
 ## Using it in a repository
 
