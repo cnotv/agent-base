@@ -11,6 +11,7 @@ The base skills read this section instead of hardcoding commands. Keep every lin
 - **Docs home:** `documentation/docs/` — guides in `guides/`, findings in `journey/`
 - **Docs build:** `pnpm docs:build`
 - **Preview deploys:** where the preview URL comes from, or "none"
+- **Auto-merge:** `squash` makes `open-pr` queue a squash merge once the pull request is ready (optional, omit the line to merge by hand). Needs `allow_auto_merge` on and a ruleset on the default branch requiring the CI checks
 - **Security:** the audit commands this repository runs (for example `pnpm audit --prod`), and
   where its threat model lives, or "none"
 - **Sound export:** the command that renders a Strudel pattern to WAV or MIDI, or "none"
