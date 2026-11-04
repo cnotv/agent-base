@@ -39,6 +39,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | `to-spec`         | a grilled plan becomes the spec in the epic's body                    |
 | `to-tickets`      | a spec is drafted into vertical-slice tickets the owner approves      |
 | `split`           | approved tickets become sub-issues with blocked-by links and an `Agent:` line |
+| `deploy-cloud`    | deploying to the Hetzner server behind its proxy, or backing up SQLite |
 | `review-pr`       | a pull request is reviewed against the standards and its ticket, as one comment |
 
 Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-pr`.
