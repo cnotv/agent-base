@@ -30,6 +30,28 @@ jumps and lasers their sweep; short `decay` with `sustain(0)` gives clicks and c
 Use only the sounds the repository's exporter has loaded; its local skill or Project facts says
 which. An unknown sample fails the render with `sound ... not found`.
 
+### Write each thing once
+
+A forty item bar list or a run of `~ ~ ~ ~` means a song is spelled out rather than written. Say
+each thing once:
+
+| Repetition                                  | Write                                                                   |
+| ------------------------------------------- | ----------------------------------------------------------------------- |
+| sections that last several bars             | `arrange([8, verse], [8, chorus])` over short `<...>` one a bar strings |
+| one plan for chords, bass and melody        | a function, `plan(verse, chorus, outro)`, called once for each part     |
+| a chorus that returns, or a mask used twice | a `const`                                                               |
+| bars a part sits out, the same bar again    | `silence`, `~!8`, `<a!3 b>`                                             |
+| a kick that changes each bar                | `cat(k1, k2, k3, k4)` from one bar cells                                |
+| the first bars of a section, then a new end | `[7, line], [1, end]`                                                   |
+| one bank or one mask on several layers      | `stack(...).bank("RolandTR909")` or `.mask(name)`                       |
+
+Write the chord plan once, one chord a bar, and derive the bass and the melody from it, so no part
+can drift onto another chord. In a one a bar `<...>` string an item with a weight and no brackets
+lasts that many bars: write `[a4@4]`, not `a4@4`.
+
+A rewrite must not change the music. Export the old and the new version to MIDI and compare them
+track by track: every note should match at the same time.
+
 ## 2. Choose the format
 
 | Pick | When the file is                                                         |
@@ -55,9 +77,13 @@ Read the file back: a WAV's length and its peak level (well above zero where it 
 below 1.0 where it should not clip); a MIDI file's tempo, track count and note count per track.
 A silent or clipped WAV, or a MIDI file with an empty track, goes back to step 1.
 
+For a song, also check the harmony: `sound-design` ships `check-harmony.mjs`, which lists every
+note on a beat outside its bar's chord in a MIDI export.
+
 ## 5. Composition Guidance
 
 Before writing a pattern, verify the genre/style definitions and instrument names (search reference sources and check loaded samples), then use `audio-brief` to produce a brief that specifies:
+
 - Job (loop, cue, jingle, menu bed, gameplay layer)
 - Length, loop point, tempo, meter
 - Key / mode, harmonic rhythm, form (A-A-B-A, build/climax/resolve)

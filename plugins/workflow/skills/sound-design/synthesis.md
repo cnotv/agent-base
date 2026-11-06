@@ -38,6 +38,12 @@ kick is a laser with a far faster pitch envelope and the amplitude left to ring.
 `s("white").segment(64).lpf(...)`, with a short `attack` and `release` so the 64 retriggers do
 not buzz. The envelope is cleaner and also keeps a chord from retriggering.
 
+**Heavy distortion belongs on a sample.** A raw sawtooth through distortion, raised an octave over
+the riff, sounds like a chip tune whatever the filter does: the oscillator is thin and aliased. For
+a fuzz guitar or bass play a guitar or bass sample at the written pitch (drop D is already D2), add
+the fifth, double it with a second distorted sample, and keep the register low. Distortion also
+raises the level a long way, so set it after the effects with `postgain`.
+
 ## Choosing a method
 
 | Method      | Good for                                      | In Strudel                                    |
