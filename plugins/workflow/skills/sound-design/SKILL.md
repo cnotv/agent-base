@@ -74,6 +74,16 @@ Compare with a sound in the repository that already works before trusting a numb
 Loudness targets apply to the finished mix, not to each file: see
 `foley-and-layering.md`.
 
+### Check a song's harmony
+
+A loudness reading says nothing about wrong notes, and a part written against its own idea of the
+chords drifts unseen: a bass under the wrong chord, an arpeggio stuck on the home key. Export the
+song to MIDI, give the chords a sound no other part uses, and run
+`node <this skill's directory>/check-harmony.mjs <song.mid> <chord sound>` (it needs
+`@tonejs/midi` in the directory it runs from). It lists every note on a beat outside the chord in
+its bar. Read the list: a blue note, a third over a power chord or a fifth the voicing leaves out
+is right, a bass under the wrong chord is not.
+
 ## 4. Vary anything that repeats
 
 A sound triggered often needs 3-5 variations plus small pitch and volume randomisation at
@@ -82,20 +92,23 @@ values, not as copies of one file.
 
 ## Common mistakes
 
-| Mistake                                                         | Instead                                                                                          |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| A sweep with `.lpf(saw.range(...))` on one long note            | Strudel reads a signal once per event, so it stays frozen; use `lpenv` (see `synthesis.md`)      |
-| Fixing that with `.segment()` on the argument                   | still frozen: the sound owns the structure, so segment the sound or use an envelope              |
-| `gain` from a signal on one long note, leaving it nearly silent | same cause; shape it with `attack`, `decay`, `release`                                           |
-| A long pure low sine for weight                                 | reads as a hollow drum: keep it short and add a body                                             |
-| Reverb on something dry and close                               | a tail says where a thing is, so it moves the sound into a cave                                  |
-| Raising the gain until a thin sound is loud                     | add the missing band instead                                                                     |
-| Reporting that a sound "sounds good"                            | you did not hear it: report the measurements, and ask the user to listen before calling it final |
-| Pressing Play to check it                                       | never: nothing may play aloud, and the render and the measurements are silent                    |
+| Mistake                                                         | Instead                                                                                                                            |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| A sweep with `.lpf(saw.range(...))` on one long note            | Strudel reads a signal once per event, so it stays frozen; use `lpenv` (see `synthesis.md`)                                        |
+| Fixing that with `.segment()` on the argument                   | still frozen: the sound owns the structure, so segment the sound or use an envelope                                                |
+| `gain` from a signal on one long note, leaving it nearly silent | same cause; shape it with `attack`, `decay`, `release`                                                                             |
+| A long pure low sine for weight                                 | reads as a hollow drum: keep it short and add a body                                                                               |
+| Reverb on something dry and close                               | a tail says where a thing is, so it moves the sound into a cave                                                                    |
+| Raising the gain until a thin sound is loud                     | add the missing band instead                                                                                                       |
+| Reporting that a sound "sounds good"                            | you did not hear it: report the measurements, and ask the user to listen before calling it final                                   |
+| A rock song built from raw oscillators and a vintage drum bank  | it sounds like a chip tune: use guitar and bass samples at the written pitch, and a drum bank that is not 8 bit (the LinnDrum was) |
+| Distortion on a layer, then fixing the level with `gain`        | distortion raises the level a long way: set the level after the effects, with `postgain`                                           |
+| Pressing Play to check it                                       | never: nothing may play aloud, and the render and the measurements are silent                                                      |
 
 ## 5. Soundscape (Scene Composition)
 
 When the request is a scene rather than one sound, build from the brief produced by `audio-brief`:
+
 - Define the world (material, technology, scale, distance, emotion)
 - Reference analysis (three references, what to borrow and avoid)
 - Palette (3-5 core sources with shared pitch centre)
