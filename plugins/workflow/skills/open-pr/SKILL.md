@@ -101,8 +101,20 @@ the agent dashboard, shows exactly these two next to the check gates.
   body only when it was uploaded through the web editor, which no API reaches, so a linked MP4
   shows as a link: say so to the user, who can drag the file into the body for a player.
 - Show the **before** as well when the change alters something that already existed.
+- **A video is never left as "ready to upload".** When the upload route cannot run (a web
+  session expired and nobody is there to sign in), commit the file to an orphan `pr-media`
+  branch under `pr-<number>/` with git plumbing, so the working branch and the default branch
+  stay free of binaries, and link it pinned to the commit sha.
+- **Marking ready is gated on these.** Before `gh pr ready`, read the body back and confirm it
+  holds the screenshot, the video and the full preview URL with the route. Missing any of
+  them, the pull request stays a draft. This is a checklist item, not something the user
+  should have to ask for.
 
-## 5. Watch the check gates
+## 5. Watch the check gates, then mark it ready
+
+Marking ready is part of the job: when every gate is green and the body is complete (section
+4), run `gh pr ready <number>` without asking.
+
 
 ```sh
 gh pr checks <number> --watch
@@ -174,7 +186,8 @@ around it. Leave the pull request ready and report what is missing.
 
 Every check gate is green, the description matches what is on the branch, the linked issue
 still describes the work, the abstraction review is filled in (including "nothing
-generalizable"), and the screenshot and video are present for any visible change. End the
+generalizable"), the screenshot, the video and the preview link are in the body for any
+visible change, and the pull request has been marked ready without being asked. End the
 report with a link to the pull request.
 
 When the repository opts in to auto-merge, the report also says that the merge is queued.
