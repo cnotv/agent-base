@@ -80,11 +80,11 @@ an exploratory prototype, which still owes them before the pull request is marke
 
 ### Pull request evidence
 
-A pull request that changes anything visible carries one screenshot and one video. The
-shared `pr-preview` workflow records both from the running app; put a `Preview route: /path`
-line in the body when the change is not on the default route, and `Preview click:` and
-`Preview show:` lines when it is folded away or below the fold. A video put in the body by
-hand is an MP4, never a GIF.
+A pull request that changes anything visible carries one screenshot and one GIF. The
+shared `pr-preview` workflow records the running app; put a `Preview route: /path` line in
+the body when the change is not on the default route, and `Preview click:` and
+`Preview show:` lines when it is folded away or below the fold. The motion goes in the body
+as a GIF, because a GIF renders inline from a link and an MP4 shows as a bare one.
 
 ### Definition of done
 
