@@ -6,7 +6,7 @@ description: >-
   ready. Also when explicitly asked to open, raise, create, submit or update one: "open the
   PR", "raise a PR", "make a pull request", "push this up", "update the PR description".
   Covers the issue the PR closes, targeting the default branch, rebasing onto main,
-  force-pushing safely, the PR body, the preview screenshot and video, keeping the description
+  force-pushing safely, the PR body, the preview screenshot and GIF, keeping the description
   current, watching the check gates to green, and the abstraction review that closes out the
   work.
 ---
@@ -78,10 +78,10 @@ changed, why it matters, the one core idea, how to see it. Then write only what 
 cannot say: decisions, constraints, surprises. Link a doc instead of repeating it. A body long
 enough to skim past has failed.
 
-## 4. The screenshot and the video
+## 4. The screenshot and the GIF
 
-A pull request that changes anything visible carries **one screenshot and one video**. Dashi,
-the agent dashboard, shows exactly these two next to the check gates.
+A pull request that changes anything visible carries **one screenshot and one GIF**. Dashi,
+the agent dashboard, shows these next to the check gates.
 
 - The repository's `pr-preview` workflow records both from the running app on every push and
   uploads them as the `pr-preview` artifact. Nothing to do by hand when it exists.
@@ -91,22 +91,45 @@ the agent dashboard, shows exactly these two next to the check gates.
   a tab or the fold is not in it. Add `Preview click: <selector>` lines (up to five, clicked in
   order) to unfold it, and one `Preview show: <selector>` line to scroll it to the top, e.g.
   `Preview click: [aria-label="Show Closed"]` then `Preview show: [aria-label="Fold Closed"]`.
-  Add `Preview step: <caption>` lines (up to ten) to narrate the video: caption one shows
-  before the first click, and the video gains a visible cursor and click ripple.
+  Add `Preview step: <caption>` lines (up to ten) to narrate the recording: caption one shows
+  before the first click, and it gains a visible cursor and click ripple.
   Open the recorded screenshot and check the feature itself is in it, not just the page.
 - When the repository has no `pr-preview` workflow, capture them yourself from the running
-  app (see `verify`) and put the first image and the first video in the body. Pin raw links
-  to the commit sha, never the branch, and re-fetch the body to confirm the image renders.
-- A video you put in the body is an MP4 (H.264), never a GIF. GitHub plays a video in the
-  body only when it was uploaded through the web editor, which no API reaches, so a linked MP4
-  shows as a link: say so to the user, who can drag the file into the body for a player.
+  app (see `verify`): the screenshot, and a Playwright `recordVideo` recording turned into a
+  GIF. Put the first image and the GIF in the body, pin raw links to the commit sha, never
+  the branch, and re-fetch the body to confirm the image renders.
+- **The motion is a GIF, never an MP4 link.** GitHub plays a video in the body only when it
+  was uploaded through the web editor, which no API reaches, so a linked MP4 shows as a bare
+  link. A GIF renders inline from a markdown image. Convert the recording, aiming for about
+  1 MB and never over 10 MB:
+
+  ```sh
+  ffmpeg -i rec.webm -vf "fps=10,scale=800:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=96[p];[b][p]paletteuse=dither=bayer:bayer_scale=4" out.gif
+  ```
+
+- **Host the GIF on the orphan `pr-media` branch**, under `pr-<number>/<name>.gif`, so the
+  working branch and the default branch stay free of binaries. Commit it with git plumbing: a
+  normal `git commit` there runs the repository's hook, which fails on a branch with no
+  `package.json`, and the hook is never skipped.
+
+  ```sh
+  git fetch origin pr-media
+  export GIT_INDEX_FILE=$(mktemp -u)
+  git read-tree origin/pr-media
+  blob=$(git hash-object -w out.gif)
+  git update-index --add --cacheinfo 100644,$blob,pr-<number>/<name>.gif
+  commit=$(git commit-tree "$(git write-tree)" -p origin/pr-media -m "chore: add the preview GIF for PR <number>")
+  unset GIT_INDEX_FILE
+  git push origin "${commit}:refs/heads/pr-media"
+  ```
+
+  Braces matter in zsh, where `$commit:refs` is read as a modifier. Link it as
+  `https://raw.githubusercontent.com/<owner>/<repo>/<commit>/pr-<number>/<name>.gif`.
+- **A GIF is silent.** When the change is audible, the body says what was checked instead, such
+  as the audio sources that started, and does not imply the GIF shows sound.
 - Show the **before** as well when the change alters something that already existed.
-- **A video is never left as "ready to upload".** When the upload route cannot run (a web
-  session expired and nobody is there to sign in), commit the file to an orphan `pr-media`
-  branch under `pr-<number>/` with git plumbing, so the working branch and the default branch
-  stay free of binaries, and link it pinned to the commit sha.
 - **Marking ready is gated on these.** Before `gh pr ready`, read the body back and confirm it
-  holds the screenshot, the video and the full preview URL with the route. Missing any of
+  holds the screenshot, the GIF and the full preview URL with the route. Missing any of
   them, the pull request stays a draft. This is a checklist item, not something the user
   should have to ask for.
 
@@ -186,7 +209,7 @@ around it. Leave the pull request ready and report what is missing.
 
 Every check gate is green, the description matches what is on the branch, the linked issue
 still describes the work, the abstraction review is filled in (including "nothing
-generalizable"), the screenshot, the video and the preview link are in the body for any
+generalizable"), the screenshot, the GIF and the preview link are in the body for any
 visible change, and the pull request has been marked ready without being asked. End the
 report with a link to the pull request.
 

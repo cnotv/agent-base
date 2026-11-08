@@ -46,7 +46,7 @@ When a request fits two workflows, pick the one whose verification is stricter: 
   everything missing, and wait. The answer is what the issue is written from.
 - Local skills listed under Project facts extend these workflows; run them where their own
   descriptions say they apply.
-- The pull request carries one screenshot and one video when anything visible changed (see
+- The pull request carries one screenshot and one GIF when anything visible changed (see
   `open-pr`).
 
 ## Definition of done
