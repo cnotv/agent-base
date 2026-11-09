@@ -18,6 +18,13 @@ while they are being made. It is marked ready once the change is validated (`fin
 passed) and every check gate is green, and goes back to draft while a later change is made to
 it (section 7). None of these steps waits to be asked.
 
+**Never ask before capturing the media or marking ready.** Neither is ever a question, a
+next-step button, an offer or a "want me to" line. When you stop working on a change, finish it
+in that same turn: capture the screenshot and the GIF (section 4), put them in the body, and run
+`gh pr ready` once the gates are green (section 5). Anything you could not verify goes in the
+body's test plan as an unchecked item; it is reported, not a reason to keep the pull request a
+draft or to ask.
+
 ## 0. The issue it closes
 
 `start-issue` has already opened or read the issue. If somehow none exists, write it now.
@@ -130,8 +137,9 @@ the agent dashboard, shows these next to the check gates.
 - Show the **before** as well when the change alters something that already existed.
 - **Marking ready is gated on these.** Before `gh pr ready`, read the body back and confirm it
   holds the screenshot, the GIF and the full preview URL with the route. Missing any of
-  them, the pull request stays a draft. This is a checklist item, not something the user
-  should have to ask for.
+  them, the pull request stays a draft until you add them, in the same turn. This is a
+  checklist item, not something the user should have to ask for, and never something you
+  ask the user about.
 
 ## 5. Watch the check gates, then mark it ready
 

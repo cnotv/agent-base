@@ -63,3 +63,6 @@ Then the lines that hold everywhere:
 Every check was run and its output seen, and every applicable checklist line is done or
 explicitly not applicable. State what was verified and how; if something was skipped, say
 which and why.
+
+Then go straight on to `open-pr`: capture the screenshot and the GIF and mark the pull request
+ready in the same turn. Never ask whether to do either.
