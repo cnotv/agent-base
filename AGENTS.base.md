@@ -57,12 +57,6 @@ an exploratory prototype, which still owes them before the pull request is marke
   Figma step, and ask which. Style it through its theme tokens. A missing component is composed
   from the library's primitives, and the pull request says so.
 
-### UI
-
-- **A checkbox label is at most 12 characters** ("Auto apply", not "Auto apply the code to the
-  editor"). Longer explanation goes in a tooltip or a collapsed section. Go past 12 only when no
-  shorter word keeps the meaning.
-
 ### Git
 
 - Branches are `<type>/<issue-number>-<description>` (`feat`, `fix`, `docs`, `refactor`,
