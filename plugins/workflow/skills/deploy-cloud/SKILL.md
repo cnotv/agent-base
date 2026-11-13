@@ -138,6 +138,26 @@ jobs:
           <APP>_SECRET=$<APP>_SECRET
           EOF
 
+      # The copy below empties its target first, so the target must be this app's own folder:
+      # never the SSH user's home, the root, or a folder another app on the server uses.
+      # Refuse anything else, and create the folder, before a byte is copied.
+      - name: Create the app's own folder on the server
+        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USERNAME }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          port: ${{ secrets.HETZNER_PORT || '22' }}
+          envs: DEPLOY_DIRECTORY
+          script: |
+            set -eu
+            case "$DEPLOY_DIRECTORY" in
+              '' | . | ./ | / | '~' | '~/' | *..*)
+                echo "DEPLOY_DIRECTORY must name this app's own folder, not '$DEPLOY_DIRECTORY'" >&2
+                exit 1 ;;
+            esac
+            mkdir -p "$DEPLOY_DIRECTORY"
+
       # Both SSH actions hold the server key, so they are pinned to the exact commit of a
       # release rather than a tag that could be moved. rm clears the directory first: copying
       # on top of the previous copy leaves files deleted from the repository behind, and a
@@ -196,8 +216,12 @@ Rules this file keeps:
   file, lockfile and manifests, the source folders. Never `.git`, `node_modules` or tests.
   Check it by copying exactly those paths into an empty directory and running `docker build`
   there; a missing path fails here instead of on the server.
-- **`DEPLOY_DIRECTORY` is per repository.** Two apps sharing one directory would wipe each
-  other on every `rm: true`.
+- **`DEPLOY_DIRECTORY` is the app's own folder**, named after the app (`<app>`, or
+  `apps/<app>` when the server keeps apps together), and created by the step before the copy.
+  Never the SSH user's home, `/`, or a folder another app uses: `rm: true` empties the target,
+  so deploying into the home or a shared folder deletes what else lives there, and copying a
+  `docker-compose.yml` beside another app's replaces it. Two apps sharing one directory would
+  wipe each other on every deploy.
 - **Smoke test through the domain**, not the container: it proves DNS, the proxy and the
   certificate too. The retries cover the seconds the proxy needs to see the new container.
 
