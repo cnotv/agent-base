@@ -14,6 +14,10 @@ This sequence runs in order, before a single line of code or documentation is wr
 Every request that changes the repository goes through it, including the smallest fix and
 the roughest prototype.
 
+The `gh` commands here are porcelain. Where it is refused (a GraphQL 403, or `gh auth status`
+calling the token invalid), run the REST form of each from the `github-api` skill; a refused
+command never skips a step.
+
 ## 1. Read or write the issue
 
 An issue that already exists is read properly, comments included:

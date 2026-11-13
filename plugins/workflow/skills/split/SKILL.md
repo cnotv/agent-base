@@ -14,6 +14,10 @@ sub-issues, ordered by native "blocked by" links. A ticket is **ready** when it 
 every ticket blocking it is closed. Dashi, the agent dashboard, reads this graph and starts one
 fresh session per ready ticket, so everything a session needs is in its ticket.
 
+The `gh` commands here are porcelain. Where it is refused (a GraphQL 403, or `gh auth status`
+calling the token invalid), run the REST form of each from the `github-api` skill; a refused
+command never skips a step.
+
 ## 1. Have an approved breakdown
 
 Run `to-tickets` first when there is no breakdown the owner has approved in this conversation.

@@ -16,6 +16,10 @@ Break a spec, a plan or the conversation into **tickets**: tracer-bullet vertica
 declaring the tickets that **block** it. This skill drafts and agrees the breakdown; `split`
 publishes it as sub-issues of the epic.
 
+The `gh` commands here are porcelain. Where it is refused (a GraphQL 403, or `gh auth status`
+calling the token invalid), run the REST form of each from the `github-api` skill; a refused
+command never skips a step.
+
 ## 1. Gather context
 
 Work from the conversation. When given an issue number or URL, read its body and comments with
