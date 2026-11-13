@@ -18,6 +18,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | ----------------- | --------------------------------------------------------------------- |
 | `start`           | first, on every new request: picks the workflow and lists its steps   |
 | `start-issue`     | before any code: the issue, main synced, the branch named             |
+| `github-api`      | a `gh` command is refused, or before deciding GitHub is unreachable   |
 | `open-pr`         | at the first commit, and again when validated                         |
 | `verify`          | confirming a change works or looks right in the running app           |
 | `finish-change`   | before claiming work is complete                                      |

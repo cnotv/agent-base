@@ -25,6 +25,10 @@ axes apart stops one from masking the other.
 The review changes nothing: no commits, no pushes, no edits to the pull request's body, and no
 approval or request for changes. Its only output is one comment on the pull request.
 
+The `gh` commands here are porcelain. Where it is refused (a GraphQL 403, or `gh auth status`
+calling the token invalid), run the REST form of each from the `github-api` skill; a refused
+command never skips a step.
+
 ## 1. Pin the pull request
 
 ```sh

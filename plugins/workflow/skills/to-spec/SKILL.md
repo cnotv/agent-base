@@ -15,6 +15,10 @@ Take what the conversation settled and what the codebase shows, and write the sp
 interview the owner again; that was `grilling`. GitHub is the tracker: the spec is the body of
 the epic issue.
 
+The `gh` commands here are porcelain. Where it is refused (a GraphQL 403, or `gh auth status`
+calling the token invalid), run the REST form of each from the `github-api` skill; a refused
+command never skips a step.
+
 ## 1. Read the current state
 
 Explore the repository if you have not already. Use the glossary's vocabulary throughout (see

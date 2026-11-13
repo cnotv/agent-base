@@ -34,6 +34,10 @@ an exploratory prototype, which still owes them before the pull request is marke
   `--no-verify`. If a hook or a rule fails, it is usually right.
 - **No emoji** anywhere — code, comments, UI text, commit messages, documentation — unless
   explicitly requested.
+- **Check GitHub with a real call.** `gh auth status` can call a working token invalid, and some
+  sessions refuse GraphQL, which most `gh issue` and `gh pr` commands use. Read the repository
+  with `gh api repos/<owner>/<repo>` first; when it answers, use REST through `gh api` (the
+  `github-api` skill) and still open the issue, branch and draft pull request.
 - **Prefer a debugger over logging.** When a fix has failed twice, add logging at the relevant
   paths to see the real runtime values before trying again.
 

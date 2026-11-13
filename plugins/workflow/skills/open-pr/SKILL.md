@@ -25,6 +25,10 @@ in that same turn: capture the screenshot and the GIF (section 4), put them in t
 body's test plan as an unchecked item; it is reported, not a reason to keep the pull request a
 draft or to ask.
 
+The `gh` commands here are porcelain. Where it is refused (a GraphQL 403, or `gh auth status`
+calling the token invalid), run the REST form of each from the `github-api` skill; a refused
+command never skips a step.
+
 ## 0. The issue it closes
 
 `start-issue` has already opened or read the issue. If somehow none exists, write it now.
