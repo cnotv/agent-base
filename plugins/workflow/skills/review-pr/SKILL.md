@@ -98,6 +98,15 @@ requirements the spec asks for that are missing or partial, (b) behaviour in the
 asked for, and (c) requirements that look implemented but wrongly. Quote the spec line for each
 finding. Under 400 words."
 
+## Check each finding before it becomes a fix
+
+A reviewer reads the diff, so a finding can be wrong about the code around it. Before anyone
+files a fix, trace the finding to where the value is set and read: every caller, and every
+control a user can set it with. A finding that would override something a user chose by hand
+(an instrument reset on song change that wipes the picker's choice, say) is a decision for the
+owner, so report it as a question, never as a defect. Hand only findings that survive this to a
+cheaper agent, with the files and the checks named (see `split`, "Briefing a cheaper agent").
+
 ## 5. Comment on the pull request
 
 Write the two reports under `## Standards` and `## Spec`, as returned or lightly cleaned. Do
