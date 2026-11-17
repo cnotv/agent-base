@@ -65,3 +65,8 @@ is refused, read the error: the proxy names the route to use instead.
 - **Never push to the default branch** because opening a pull request seemed impossible.
 - **`git push` is separate from `gh`.** Pushing goes through git's own credentials; a working
   push says nothing about `gh`, and a failing `gh` says nothing about pushing.
+- **A TLS error is the sandbox, not GitHub.** In a sandboxed macOS session `gh` can fail with
+  `tls: failed to verify certificate: x509: OSStatus -26276`, even once the host is allowed,
+  because the sandbox's proxy certificate is not in the keychain `gh` reads. Re-run that one
+  read-only `gh` call outside the sandbox when the user named the repository; never use the
+  escape for other credentials or hosts, and keep the next call in the sandbox.

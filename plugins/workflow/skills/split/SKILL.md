@@ -61,6 +61,18 @@ A ticket that itself plans a further epic takes `Agent: claude laptop-remote-con
 because grilling needs the owner's answers. A pull request's review is not a ticket: Dashi
 starts it on a different model from the one that wrote the change.
 
+### Briefing a cheaper agent
+
+A free or small model follows a ticket literally and guesses where it is silent, so the ticket
+does the thinking:
+
+- Name the files to change and the ones to leave alone.
+- State the behaviour as one failing test or one input and its expected output.
+- Say the single approach to take, and name any tempting alternative that is out of scope.
+- Give the exact check commands from Project facts, and say a red check means stop and report.
+- Keep it to one outcome that fits one pull request; split anything with a design choice in it
+  and give that choice to a stronger model or the owner.
+
 ## 4. Publish in dependency order
 
 Create the blockers first, so every edge points at a real issue. A ticket lives in the
