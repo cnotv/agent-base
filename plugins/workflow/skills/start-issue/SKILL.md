@@ -80,10 +80,15 @@ added or dropped. If the change invalidates the description rather than adding t
 the body with `gh issue edit <number>` so it reads as one clean, current description — do
 not append a changelog of the edit.
 
-## Breaking a large issue into subtasks
+## A large issue is still one issue
 
-When the subtasks are tickets for other sessions, `split` publishes them instead. Otherwise create
-each subtask as its own issue, then attach it with GitHub's native sub-issue
+A feature that ships together stays one issue, one branch and one pull request, however many
+steps it has. Write the steps as a checklist in the issue body and tick them as commits land;
+do not create an issue or a pull request per step, and do not open sub-issues on your own.
+
+Split a feature only when the owner asks, or when its parts can each ship and be reviewed
+alone. When the subtasks are tickets for other sessions, `split` publishes them. When the owner
+asks for separate issues, create each one and attach it with GitHub's native sub-issue
 relationship so progress is tracked:
 
 ```sh
