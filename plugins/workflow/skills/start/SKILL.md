@@ -44,6 +44,9 @@ When a request fits two workflows, pick the one whose verification is stricter: 
 
 - If intent, scope or expected behaviour is unclear, ask one focused question covering
   everything missing, and wait. The answer is what the issue is written from.
+- One feature is one issue, one branch and one pull request. Steps are a checklist in the issue
+  and commits in the pull request, never sub-issues or extra pull requests, unless the owner
+  asks.
 - Local skills listed under Project facts extend these workflows; run them where their own
   descriptions say they apply.
 - The pull request carries one screenshot and one GIF when anything visible changed (see

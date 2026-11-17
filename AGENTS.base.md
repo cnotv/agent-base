@@ -26,6 +26,10 @@ an exploratory prototype, which still owes them before the pull request is marke
 
 - **Ask before assuming.** If intent, scope or expected behaviour is unclear, ask one focused
   question covering everything missing, and wait.
+- **One feature, one issue, one pull request.** A feature that ships together is a single issue,
+  branch and pull request, however many steps it has: the steps are a checklist in the issue and
+  commits in the pull request. Never open a sub-issue or a pull request per step; split only when
+  the parts can each ship and be reviewed alone, or the owner asks.
 - **Give an opinion.** When asked what you think, say what you would do and why. Never stop at
   "it depends".
 - **Write it once, at the length it earns.** Prose that repeats the diff or restates something
