@@ -60,10 +60,11 @@ an exploratory prototype, which still owes them before the pull request is marke
   that works. Reuse what the repository already has before writing something new.
 - **Use an existing component library; never build a UI kit.** No custom buttons, inputs,
   selects, dialogs, badges or other controls, and no in-house design system, unless the request
-  explicitly asks for one or the library in use has no component for the need. "Add a UI kit"
-  means adopt a library: propose one that fits the framework, with its Figma kit when there is a
-  Figma step, and ask which. Style it through its theme tokens. A missing component is composed
-  from the library's primitives, and the pull request says so.
+  explicitly asks for one. Look in this order: shadcn first, in its port for the framework in use
+  (shadcn/ui for React, shadcn-vue for Vue, and so on); then another widely adopted library; only
+  then build the component, composed from the library's primitives, and the pull request says so.
+  "Add a UI kit" means adopt a library: propose one that fits the framework, with its Figma kit
+  when there is a Figma step, and ask which. Style it through its theme tokens.
 
 ### Git
 
