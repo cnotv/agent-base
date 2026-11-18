@@ -42,6 +42,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | `split`           | approved tickets become sub-issues with blocked-by links and an `Agent:` line |
 | `deploy-cloud`    | deploying to the Hetzner server behind its proxy, or backing up SQLite |
 | `ui`              | control labels, their length, and where longer explanation goes       |
+| `visual-design-craft` | layout, typography, colour, style direction, illustration, picture books, or a design review |
 | `review-pr`       | a pull request is reviewed against the standards and its ticket, as one comment |
 
 Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-pr`.
