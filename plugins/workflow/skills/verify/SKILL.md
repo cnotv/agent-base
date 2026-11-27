@@ -46,7 +46,9 @@ most agent tools render it inline.
 
 Run the browser headless: `chromium.launch()` is headless unless told otherwise, and it needs
 no display, so it works in a sandbox, in CI and beside the user's own browser. Never pass
-`headless: false` unless the user asks to watch. Pick the tool by what is installed:
+`headless: false` unless the user asks to watch, or a visible browser is truly needed. Close the
+browser when the check is done, and stop any server you started for it. Pick the tool by what is
+installed:
 
 - A Playwright script, as above, when the repository has Playwright.
 - The Playwright MCP tools, or the desktop app's built-in browser, when no script is

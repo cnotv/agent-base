@@ -95,6 +95,20 @@ enough to skim past has failed.
 A pull request that changes anything visible carries **one screenshot and one GIF**. Dashi,
 the agent dashboard, shows these next to the check gates.
 
+**A Haiku subagent captures them.** Hand the work to a subagent on the Haiku model rather than
+doing it in the main session: give it the checkout, the pull request number, the route, the
+clicks that bring the feature into view, and what the shot must show. It starts the app,
+records headless, checks the screenshot shows the feature, converts the GIF, hosts both on
+`pr-media` as below, stops what it started, and returns the two raw URLs with one line on what
+each shows. It never edits the pull request; the main session puts the URLs in the body and
+reads the body back. A recording from the `pr-preview` artifact that already shows the feature
+can be handed over instead of a new recording.
+
+**Headless, and nothing left running.** The browser is headless unless a visible one is truly
+needed, and it is closed when the capture is done. The dev or preview server started for it is
+stopped when the capture is done, and any still running when the pull request merges is stopped
+then.
+
 - The repository's `pr-preview` workflow records both from the running app on every push and
   uploads them as the `pr-preview` artifact. Nothing to do by hand when it exists.
 - It opens the default route from its workflow inputs. When the change lives elsewhere, add a
