@@ -66,6 +66,8 @@ Working pages first, then the product in reading order. Name every working page
 | Content pages | The product itself |
 | Closing and back cover | As the format needs |
 
+Each working page has a skeleton in `references/working-pages.md`; fill it from the intake instead of inventing the sections.
+
 Drop the parts a format does not need: a postcard has no characters page. Stationery sets use
 one page per piece (letterhead, envelope, card, label) and a spec box instead of a story map.
 
@@ -96,6 +98,7 @@ Inside the placeholder group:
 Outside it: the text scrim and the text.
 
 - Scrim: a vertical gradient from paper at 0 alpha to paper at full alpha, opaque by the start of the text block. It lets art run to the trim while the text stays legible.
+- Placeholder text that the owner must supply stays in brackets (`[Author name]`, `[Illustrator name]`, `[Publisher]`, an `ISBN / barcode` box). Never invent it.
 - Heading and body in the text styles, inside the safe margin, no folio unless the format needs one.
 
 ## 6. Typography
@@ -142,7 +145,7 @@ Fill the preflight page, then report plainly:
 - [ ] Colour space, dpi, bleed and safe margin written on the how to page
 - [ ] What still blocks print: the art, the working pages, the colour space
 
-Hand the artist the canvas size per page and the palette hex list. For a Procreate or similar
+Hand the artist the canvas size per page, the palette hex list and the file naming rule (`Title_p01.png`). For a Procreate or similar
 canvas, name layers after the placeholder ids so the art maps back to the page.
 
 ## Gotchas
