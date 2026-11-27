@@ -43,6 +43,7 @@ Claude Code and Codex, so a procedure improved here improves everywhere.
 | `deploy-cloud`    | deploying to the Hetzner server behind its proxy, or backing up SQLite |
 | `ui`              | control labels, their length, and where longer explanation goes       |
 | `visual-design-craft` | layout, typography, colour, style direction, illustration, picture books, or a design review |
+| `designo-template` | a template for an artist or designer is wanted in Designo (picture book, zine, card, stationery): routes to the skill Designo's own MCP serves |
 | `review-pr`       | a pull request is reviewed against the standards and its ticket, as one comment |
 
 Plugin skills are namespaced by the plugin: `/workflow:start`, `/workflow:open-pr`.
