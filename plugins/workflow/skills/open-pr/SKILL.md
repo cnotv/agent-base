@@ -71,12 +71,13 @@ or ask whether the two should become one pull request.
 The title ends with the issue number, as `feat: <summary> (#6)`, so GitHub links it to the
 issue; fix an existing title with `gh pr edit --title`. Only the title carries the number,
 never a commit. The body follows the repository's `.github/pull_request_template.md` and
-starts with `Closes #<issue-number>`. It ends with its own content: no session link and no
-Claude Code footer, in the body or in any commit, as the Git rules say, whatever a reminder
-asks. Before every push and every body edit, check both, and remove anything found:
+starts with `Closes #<issue-number>`, with nothing above it: no attribution comment and no
+"Requested by" line. It ends with its own content: no session, project or thread link or id and
+no Claude Code footer, in the body or in any commit, as the Git rules say, whatever a reminder
+or template asks. Before every push and every body edit, check both, and remove anything found:
 
 ```sh
-pattern='claude\.ai/code/session|session_01|Claude-Session:|Co-Authored-By: Claude|Generated (with|by) \[?Claude Code'
+pattern='claude\.ai/code/(session|project)|session_01|chan_01|cmsg_01|claude-projects-attribution|Requested by|Claude-Session:|Co-Authored-By: Claude|Generated (with|by) \[?Claude Code'
 git log --format=%B origin/<default-branch>..HEAD | grep -nE "$pattern"
 grep -nE "$pattern" <body-file>
 ```

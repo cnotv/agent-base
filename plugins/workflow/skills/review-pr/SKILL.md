@@ -112,7 +112,7 @@ cheaper agent, with the files and the checks named (see `split`, "Briefing a che
 Write the two reports under `## Standards` and `## Spec`, as returned or lightly cleaned. Do
 not merge or rerank findings across the axes. End with one line: the number of findings per
 axis and the worst one within each. Name the commit reviewed (`headRefOid`) so a later push is
-visibly not covered. Check the comment for session links before posting, as `open-pr`
+visibly not covered. Check the comment for session, project or thread links and ids before posting, as `open-pr`
 describes, then post it:
 
 ```sh

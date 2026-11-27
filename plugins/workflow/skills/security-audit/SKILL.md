@@ -104,7 +104,8 @@ from it and update it when the map changes.
 - **Logs and errors**: secrets must not appear in log lines, error messages returned to
   clients, or CI output.
 - **Agent session links**: search the diff, commit messages (`git log --format=%B`) and the
-  pull request body for `claude.ai/code/session_` and `Claude-Session:`. A session link is not
+  pull request body for `claude.ai/code/session_`, `claude.ai/code/project/`, `chan_01`,
+  `cmsg_01`, `claude-projects-attribution`, "Requested by" and `Claude-Session:`. A session link is not
   a credential, but it stays public for good and opens the session's whole transcript once
   that session is shared. Remove it from the diff and the body; a pushed commit keeps it, and
   rewriting that history is the user's call.
